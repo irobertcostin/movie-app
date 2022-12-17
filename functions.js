@@ -64,27 +64,9 @@ async function topRatedContinut () {
 
 
 
-let trendingContent = document.querySelector(".trending-content")
-
-async function trendingMovies () {
-
-    try {
-        let response = await fetch("https://api.themoviedb.org/3/trending/movie/week?api_key=23ba16be4dc35356bedc2b9b63c19363")
-        response = await response.json();
-        console.log(response.results[0])
-
-        
 
 
-
-    }
-    catch(err) {
-        alert(err)
-    }
-
-}
-
-async function createTrendingContentDiv (obj) {
+function createTrendingContentDiv (obj) {
 
     // poster_path
     // release date 
@@ -95,39 +77,47 @@ async function createTrendingContentDiv (obj) {
     mainDiv.classList.add("trending-movies-div")
     let img = document.createElement("img")
     mainDiv.appendChild(img);
-    let imgSrc = "https://image.tmdb.org/t/p/w500"
-    try {
-        let response = await fetch(imgSrc);
-        response = await response.json();
-        
-
-    }catch (err) {
-        console.log(err)
-    }
-
+    img.src = "https://image.tmdb.org/t/p/w500" + obj.poster_path;
     
-
-
     let secondDiv = document.createElement("div");
     mainDiv.appendChild(secondDiv);
-
+    
     let p = document.createElement("p");
+    p.textContent = obj.title;
+    p.id = "title"
+
     let p1 = document.createElement("p");
-    let p2 = document.createElement("p");
+    p1.textContent = obj.release_date;
 
     secondDiv.appendChild(p)
     secondDiv.appendChild(p1)
-    secondDiv.appendChild(p2)
 
 
     return mainDiv;
 }
 
-trendingContent.appendChild(createTrendingContentDiv("test"))
 
 
+let trendingContent = document.querySelector(".trending-content")
 
+async function trendingMovies () {
 
+    try {
+        let response = await fetch("https://api.themoviedb.org/3/trending/movie/week?api_key=23ba16be4dc35356bedc2b9b63c19363")
+        response = await response.json();
+
+        console.log(response.results)
+
+        for(i in response.results) {
+            trendingContent.appendChild(createTrendingContentDiv(response.results[i]))
+        }
+        
+    }
+    catch(err) {
+        alert(err)
+    }
+
+}
 
 
 
