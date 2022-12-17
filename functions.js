@@ -84,8 +84,6 @@ async function trendingMovies () {
 
 }
 
-
-
 async function createTrendingContentDiv (obj) {
 
     // poster_path
@@ -97,12 +95,17 @@ async function createTrendingContentDiv (obj) {
     mainDiv.classList.add("trending-movies-div")
     let img = document.createElement("img")
     mainDiv.appendChild(img);
-    let imgSrc = "https://image.tmdb.org/t/p/w500" + obj.poster_path;
+    let imgSrc = "https://image.tmdb.org/t/p/w500"
     try {
-        let response = await fetch(imgSrc)
+        let response = await fetch(imgSrc);
+        response = await response.json();
+        
+
     }catch (err) {
         console.log(err)
     }
+
+    
 
 
     let secondDiv = document.createElement("div");
