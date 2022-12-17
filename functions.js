@@ -3,7 +3,7 @@ async function test(){
 try {
     let response = await fetch ("https://api.themoviedb.org/3/movie/76341?api_key=23ba16be4dc35356bedc2b9b63c19363")
     response = await response.json();
-    console.log(response);
+    // console.log(response);
 }   catch (e) {
     console.log(e);
 }
@@ -39,8 +39,6 @@ function createTopRatedDiv (obj) {
 
 
 let topRatedContent = document.querySelector(".top-rated-content")
-
-
 async function topRatedContinut () {
     try{
         let response = await fetch("https://api.themoviedb.org/3/movie/top_rated?api_key=23ba16be4dc35356bedc2b9b63c19363&language=en-US&page=1")
@@ -60,18 +58,7 @@ async function topRatedContinut () {
     }
 }
 
-
-
-
-
-
-
 function createTrendingContentDiv (obj) {
-
-    // poster_path
-    // release date 
-    // original title
-    // overview 
 
     let mainDiv = document.createElement("div");
     mainDiv.classList.add("trending-movies-div")
@@ -106,7 +93,7 @@ async function trendingMovies () {
         let response = await fetch("https://api.themoviedb.org/3/trending/movie/week?api_key=23ba16be4dc35356bedc2b9b63c19363")
         response = await response.json();
 
-        console.log(response.results)
+        // console.log(response.results)
 
         for(i in response.results) {
             trendingContent.appendChild(createTrendingContentDiv(response.results[i]))
@@ -123,3 +110,49 @@ async function trendingMovies () {
 
 
 
+let upcomingMovies = document.querySelector(".upcoming-movies-content")
+
+async function getUpcomingMovies () {
+
+    try{
+        let response = await fetch("https://api.themoviedb.org/3/movie/upcoming?api_key=23ba16be4dc35356bedc2b9b63c19363&language=en-US&page=1")
+        response = await response.json();
+        // console.log(response.results)
+        
+        for(i in response.results) {
+            upcomingMovies.appendChild(createUpcomingContentDiv(response.results[i]))
+        }
+
+    }
+    catch(err) {
+        console.log(err)
+    }
+
+}
+
+
+
+function createUpcomingContentDiv (obj) {
+
+    let mainDiv = document.createElement("div");
+    // mainDiv.classList.add("trending-movies-div")
+    let img = document.createElement("img")
+    mainDiv.appendChild(img);
+    img.src = "https://image.tmdb.org/t/p/w500" + obj.poster_path;
+    
+    let secondDiv = document.createElement("div");
+    mainDiv.appendChild(secondDiv);
+    
+    let p = document.createElement("p");
+    p.textContent = obj.title;
+    p.id = "title"
+
+    let p1 = document.createElement("p");
+    p1.textContent = obj.release_date;
+
+    secondDiv.appendChild(p)
+    // secondDiv.appendChild(p1)
+
+
+    return mainDiv;
+}

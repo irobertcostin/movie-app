@@ -1,2 +1,3 @@
 topRatedContinut();
 trendingMovies();
+getUpcomingMovies();
