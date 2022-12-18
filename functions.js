@@ -1,4 +1,5 @@
 // function to create home page 
+
 let contentGrid = document.querySelector(".content-grid")
 function homePage(){
     let mainDiv = document.createElement("div");
@@ -19,9 +20,11 @@ function homePage(){
 
     let pTrending = document.createElement("p");
     trendingLabel.appendChild(pTrending);
+    pTrending.classList.add("show-trending-movies")
     pTrending.textContent="Trending movies";
     let pTrendingSeeAll = document.createElement("p");
     trendingLabel.appendChild(pTrendingSeeAll);
+    pTrendingSeeAll.id="show-trending-movies"
     pTrendingSeeAll.textContent= "See all";
 
 
@@ -40,9 +43,12 @@ function homePage(){
     let pUpcoming = document.createElement("p");
     upcomingLabel.appendChild(pUpcoming);
     pUpcoming.textContent="Upcoming movies";
+    pUpcoming.classList.add("show-upcoming-movies")
     let pUpcomingSeeAll = document.createElement("p");
     upcomingLabel.appendChild(pUpcomingSeeAll);
+    // pUpcomingSeeAll.classList.add("show-trending-movies")
     pUpcomingSeeAll.textContent= "See all";
+    pUpcomingSeeAll.id="show-upcoming-movies"
     
 
     let top = document.createElement("div");
@@ -68,7 +74,11 @@ function homePage(){
 
     return mainDiv;
 }
-contentGrid.appendChild(homePage());
+// contentGrid.appendChild(homePage());
+
+
+
+
 
 
 
@@ -76,6 +86,9 @@ contentGrid.appendChild(homePage());
 
 
 // let imgSrc = "https://www.themoviedb.org/t/p/w440_and_h660_face/"
+
+
+
 function createTopRatedDiv (obj) {
     let filterDiv = document.createElement("div");
     
@@ -98,9 +111,6 @@ function createTopRatedDiv (obj) {
     return filterDiv;
 }
 
-
-
-let topRatedContent = document.querySelector(".top-rated-content")
 async function topRatedContinut () {
     try{
         let response = await fetch("https://api.themoviedb.org/3/movie/top_rated?api_key=23ba16be4dc35356bedc2b9b63c19363&language=en-US&page=1")
@@ -111,7 +121,7 @@ async function topRatedContinut () {
         // console.log(response.results[0])
         
         for(i in response.results) {
-            
+            let topRatedContent = document.querySelector(".top-rated-content")
             topRatedContent.appendChild(createTopRatedDiv(response.results[i]));
         }
         
@@ -119,7 +129,6 @@ async function topRatedContinut () {
         console.log(err)
     }
 }
-
 
 
 
@@ -133,7 +142,7 @@ function createTrendingContentDiv (obj) {
     mainDiv.appendChild(img);
     img.src = "https://image.tmdb.org/t/p/w500" + obj.poster_path;
     
-    let secondDiv = document.createElement("div");
+    // let secondDiv = document.createElement("div");
     
     
     let p = document.createElement("p");
@@ -145,9 +154,6 @@ function createTrendingContentDiv (obj) {
 
     return mainDiv;
 }
-
-let trendingContent = document.querySelector(".trending-content")
-
 async function trendingMovies () {
 
     try {
@@ -157,39 +163,19 @@ async function trendingMovies () {
         // console.log(response.results)
 
         for(i in response.results) {
+            let trendingContent = document.querySelector(".trending-content")
             trendingContent.appendChild(createTrendingContentDiv(response.results[i]))
         }
         
-    }
-    catch(err) {
-        alert(err)
-    }
-
-}
-
-
-
-
-
-let upcomingMovies = document.querySelector(".upcoming-movies-content")
-
-async function getUpcomingMovies () {
-
-    try{
-        let response = await fetch("https://api.themoviedb.org/3/movie/upcoming?api_key=23ba16be4dc35356bedc2b9b63c19363&language=en-US&page=1")
-        response = await response.json();
-        // console.log(response.results)
-        
-        for(i in response.results) {
-            upcomingMovies.appendChild(createUpcomingContentDiv(response.results[i]))
-        }
-
     }
     catch(err) {
         console.log(err)
     }
 
 }
+
+
+
 
 
 
@@ -217,11 +203,29 @@ function createUpcomingContentDiv (obj) {
 
     return mainDiv;
 }
+async function getUpcomingMovies (param) {
+
+    try{
+        let response = await fetch(`https://api.themoviedb.org/3/movie/upcoming?api_key=23ba16be4dc35356bedc2b9b63c19363&language=en-US&page=${param}`)
+        response = await response.json();
+        // console.log(response.results)
+        
+        for(i in response.results) {
+            let upcomingMovies = document.querySelector(".upcoming-movies-content")
+            upcomingMovies.appendChild(createUpcomingContentDiv(response.results[i]))
+        }
+
+    }
+    catch(err) {
+        console.log(err)
+    }
+
+}
+
+
 
 
 // click on MOVIES
-
-
 
 function createMoviesTagDiv(obj){
 
@@ -238,7 +242,7 @@ async function getMoviesTag(param) {
     try {
         let response = await fetch(`https://api.themoviedb.org/3/movie/popular?api_key=23ba16be4dc35356bedc2b9b63c19363&language=en-US&page=${param}`)
         response = await response.json();
-        console.log(response.results)
+        // console.log(response.results)
         for(i in response.results) {
             contentGrid.appendChild(createMoviesTagDiv(response.results[i]))
         }
@@ -304,4 +308,165 @@ async function getShowTag(param){
 
 
 
+// click on coming soon
 
+function createComingTagDiv(obj){
+
+    let mainDiv=document.createElement("div");
+    mainDiv.classList.add("upcoming-tag-div");
+
+    let poster = document.createElement("img");
+    poster.src = "https://image.tmdb.org/t/p/w500" + obj.poster_path;
+    mainDiv.appendChild(poster)
+    return mainDiv;
+}
+
+async function getComingSoonMovies (param) {
+
+    try{
+        let response = await fetch(`https://api.themoviedb.org/3/movie/upcoming?api_key=23ba16be4dc35356bedc2b9b63c19363&language=en-US&page=${param}`)
+        response = await response.json();
+        // console.log(response.results)
+        
+        for(i in response.results) {
+            contentGrid.appendChild(createComingTagDiv(response.results[i]));
+        }
+
+    }
+    catch(err) {
+        console.log(err)
+    }
+
+}
+
+
+
+// click on popular 
+
+function createPopularTagDiv(obj){
+
+    let mainDiv=document.createElement("div");
+    mainDiv.classList.add("popular-tag-div");
+
+    let poster = document.createElement("img");
+    poster.src = "https://image.tmdb.org/t/p/w500" + obj.poster_path;
+    mainDiv.appendChild(poster)
+    return mainDiv;
+}
+
+async function getPopularMovies() {
+
+    try {
+        
+        let response = await fetch ("https://api.themoviedb.org/3/trending/all/day?api_key=23ba16be4dc35356bedc2b9b63c19363")
+        response= await response.json();
+        
+        for (i in response.results) {
+            contentGrid.appendChild(createPopularTagDiv(response.results[i]));
+        }
+
+    } catch (error) {
+        console.log(error);
+    }
+
+
+}
+
+
+// click on top rated
+
+function createTopRatedTagDiv(obj){
+
+    let mainDiv=document.createElement("div");
+    mainDiv.classList.add("top-rated-tag-div");
+
+    let poster = document.createElement("img");
+    poster.src = "https://image.tmdb.org/t/p/w500" + obj.poster_path;
+    mainDiv.appendChild(poster)
+    return mainDiv;
+}
+
+async function getTopRatedMovies(param) {
+
+    try {
+        
+        let response = await fetch (`https://api.themoviedb.org/3/movie/top_rated?api_key=23ba16be4dc35356bedc2b9b63c19363&language=en-US&page=${param}`)
+        response= await response.json();
+        
+        for (i in response.results) {
+            contentGrid.appendChild(createTopRatedTagDiv(response.results[i]));
+        }
+
+    } catch (error) {
+        console.log(error);
+    }
+
+
+}
+
+
+
+// click on trending movies 
+
+// function trendingMoviesContent
+function createTrendingMoviesDiv(obj){
+
+    let mainDiv=document.createElement("div");
+    mainDiv.classList.add("trending-movies-tag-div");
+
+    let poster = document.createElement("img");
+    poster.src = "https://image.tmdb.org/t/p/w500" + obj.poster_path;
+    mainDiv.appendChild(poster)
+    return mainDiv;
+}
+
+async function getTrendingMovies(){
+    try {
+        let response = await fetch("https://api.themoviedb.org/3/trending/movie/week?api_key=23ba16be4dc35356bedc2b9b63c19363")
+        response = await response.json();
+
+        // console.log(response.results)
+
+        for(i in response.results) {
+            contentGrid.appendChild(createTrendingMoviesDiv(response.results[i]));
+        }
+        
+    }
+    catch(err) {
+        console.log(err)
+    }
+}
+
+
+
+
+// click on upcoming movies 
+
+function createUpcomingMoviesDiv(obj) {
+    let mainDiv=document.createElement("div");
+    mainDiv.classList.add("upcoming-movies-tag-div");
+
+    let poster = document.createElement("img");
+    poster.src = "https://image.tmdb.org/t/p/w500" + obj.poster_path;
+    mainDiv.appendChild(poster)
+    return mainDiv;
+}
+
+async function getUpcomingMoviesDiv (param) {
+
+    try{
+        let response = await fetch(`https://api.themoviedb.org/3/movie/upcoming?api_key=23ba16be4dc35356bedc2b9b63c19363&language=en-US&page=${param}`)
+        response = await response.json();
+        // console.log(response.results)
+        
+        for(i in response.results) {
+            
+            contentGrid.appendChild(createUpcomingMoviesDiv(response.results[i]))
+        }
+
+    }
+    catch(err) {
+        console.log(err)
+    }
+
+}
