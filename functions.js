@@ -1,14 +1,76 @@
-async function test(){
+// function to create home page 
+let contentGrid = document.querySelector(".content-grid")
+function homePage(){
+    let mainDiv = document.createElement("div");
+    mainDiv.classList.add("main-version");
 
-try {
-    let response = await fetch ("https://api.themoviedb.org/3/movie/76341?api_key=23ba16be4dc35356bedc2b9b63c19363")
-    response = await response.json();
-    // console.log(response);
-}   catch (e) {
-    console.log(e);
-}
 
+    let trending = document.createElement("div");
+    mainDiv.appendChild(trending)
+    trending.classList.add("trending-movies")
+    
+    let trendingLabel = document.createElement("div");
+    trending.appendChild(trendingLabel)
+    trendingLabel.classList.add("trending-label");
+
+    let trendingContent = document.createElement("div");
+    trending.appendChild(trendingContent)
+    trendingContent.classList.add("trending-content")
+
+    let pTrending = document.createElement("p");
+    trendingLabel.appendChild(pTrending);
+    pTrending.textContent="Trending movies";
+    let pTrendingSeeAll = document.createElement("p");
+    trendingLabel.appendChild(pTrendingSeeAll);
+    pTrendingSeeAll.textContent= "See all";
+
+
+    let upcoming = document.createElement("div");
+    mainDiv.appendChild(upcoming)
+    upcoming.classList.add("upcoming-movies")
+
+    let upcomingLabel = document.createElement("div");
+    upcoming.appendChild(upcomingLabel)
+    upcomingLabel.classList.add("upcoming-movies-label");
+
+    let upcomingContent = document.createElement("div");
+    upcoming.appendChild(upcomingContent)
+    upcomingContent.classList.add("upcoming-movies-content")
+
+    let pUpcoming = document.createElement("p");
+    upcomingLabel.appendChild(pUpcoming);
+    pUpcoming.textContent="Upcoming movies";
+    let pUpcomingSeeAll = document.createElement("p");
+    upcomingLabel.appendChild(pUpcomingSeeAll);
+    pUpcomingSeeAll.textContent= "See all";
+    
+
+    let top = document.createElement("div");
+    mainDiv.appendChild(top)
+    top.classList.add("top-rated");
+
+    let topLabel = document.createElement("div");
+    top.appendChild(topLabel)
+    topLabel.classList.add("top-rated-label");
+
+    let topContent = document.createElement("div");
+    top.appendChild(topContent)
+    topContent.classList.add("top-rated-content")
+
+    let pTop = document.createElement("p");
+    topLabel.appendChild(pTop);
+    pTop.textContent="Top rated movies";
+    let pTopSeeAll = document.createElement("p");
+    topLabel.appendChild(pTopSeeAll);
+    pTopSeeAll.textContent= "See all";
+
+
+
+    return mainDiv;
 }
+contentGrid.appendChild(homePage());
+
+
 
 
 
@@ -58,6 +120,11 @@ async function topRatedContinut () {
     }
 }
 
+
+
+
+
+
 function createTrendingContentDiv (obj) {
 
     let mainDiv = document.createElement("div");
@@ -67,23 +134,17 @@ function createTrendingContentDiv (obj) {
     img.src = "https://image.tmdb.org/t/p/w500" + obj.poster_path;
     
     let secondDiv = document.createElement("div");
-    mainDiv.appendChild(secondDiv);
+    
     
     let p = document.createElement("p");
     p.textContent = obj.title;
     p.id = "title"
-
-    let p1 = document.createElement("p");
-    p1.textContent = obj.release_date;
-
-    secondDiv.appendChild(p)
-    secondDiv.appendChild(p1)
+    mainDiv.appendChild(p);
+    
 
 
     return mainDiv;
 }
-
-
 
 let trendingContent = document.querySelector(".trending-content")
 
@@ -156,3 +217,91 @@ function createUpcomingContentDiv (obj) {
 
     return mainDiv;
 }
+
+
+// click on MOVIES
+
+
+
+function createMoviesTagDiv(obj){
+
+    let mainDiv=document.createElement("div");
+    mainDiv.classList.add("movies-tag-div");
+
+    let poster = document.createElement("img");
+    poster.src = "https://image.tmdb.org/t/p/w500" + obj.poster_path;
+    mainDiv.appendChild(poster)
+    return mainDiv;
+}
+async function getMoviesTag(param) {
+
+    try {
+        let response = await fetch(`https://api.themoviedb.org/3/movie/popular?api_key=23ba16be4dc35356bedc2b9b63c19363&language=en-US&page=${param}`)
+        response = await response.json();
+        console.log(response.results)
+        for(i in response.results) {
+            contentGrid.appendChild(createMoviesTagDiv(response.results[i]))
+        }
+    }
+    catch(err){
+        console.log(err);
+    }
+
+}
+
+
+// click on  Series
+
+function createSeriesTagDiv(obj){
+
+    let mainDiv=document.createElement("div");
+    mainDiv.classList.add("series-tag-div");
+
+    let poster = document.createElement("img");
+    poster.src = "https://image.tmdb.org/t/p/w500" + obj.poster_path;
+    mainDiv.appendChild(poster)
+    return mainDiv;
+}
+
+async function getSeriesTag(param){
+    try {
+        let response = await fetch(`https://api.themoviedb.org/3/tv/popular?api_key=23ba16be4dc35356bedc2b9b63c19363&language=en-US&page=${param}`)
+        response = await response.json();
+        for(i in response.results){
+            contentGrid.appendChild(createSeriesTagDiv(response.results[i]));
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+// click on TV shows 
+
+function createShowTagDiv(obj){
+
+    let mainDiv=document.createElement("div");
+    mainDiv.classList.add("show-tag-div");
+
+    let poster = document.createElement("img");
+    poster.src = "https://image.tmdb.org/t/p/w500" + obj.poster_path;
+    mainDiv.appendChild(poster)
+    return mainDiv;
+}
+
+async function getShowTag(param){
+    try {
+        let response = await fetch(`https://api.themoviedb.org/3/tv/airing_today?api_key=23ba16be4dc35356bedc2b9b63c19363&language=en-US&page=${param}`)
+        response = await response.json();
+        for(i in response.results){
+            contentGrid.appendChild(createShowTagDiv(response.results[i]));
+            // console.log(response.results[i]);
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+
+
