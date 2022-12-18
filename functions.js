@@ -66,21 +66,17 @@ function homePage(){
     let pTop = document.createElement("p");
     topLabel.appendChild(pTop);
     pTop.textContent="Top rated movies";
+    pTop.classList.add("show-top-rated-movies")
     let pTopSeeAll = document.createElement("p");
     topLabel.appendChild(pTopSeeAll);
     pTopSeeAll.textContent= "See all";
+    pTopSeeAll.id="show-top-rated-movies";
 
 
 
     return mainDiv;
 }
 // contentGrid.appendChild(homePage());
-
-
-
-
-
-
 
 
 
@@ -470,3 +466,10 @@ async function getUpcomingMoviesDiv (param) {
     }
 
 }
+
+
+
+
+// click on top rated movies
+
+

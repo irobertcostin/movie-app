@@ -54,6 +54,20 @@ showUpcomingMovies2.addEventListener("click",(e)=>{
     getUpcomingMoviesDiv(1);
 })
 
+let showTopRatedMovies = document.querySelector(".show-top-rated-movies")
+showTopRatedMovies.addEventListener("click",(e)=>{
+    let obj = e.target;
+    contentGrid.innerHTML="";    
+    contentGrid.classList.add("content-grid-customisation");
+    getTopRatedMovies(1);
+})
+let showTopRatedMovies2 = document.getElementById("show-top-rated-movies")
+showTopRatedMovies2.addEventListener("click",(e)=>{
+    let obj = e.target;
+    contentGrid.innerHTML="";    
+    contentGrid.classList.add("content-grid-customisation");
+    getTopRatedMovies(1);
+})
 
 
 
@@ -128,6 +142,21 @@ showUpcomingMovies2.addEventListener("click",(e)=>{
     getUpcomingMoviesDiv(1);
 })
 
+
+let showTopRatedMovies = document.querySelector(".show-top-rated-movies")
+showTopRatedMovies.addEventListener("click",(e)=>{
+    let obj = e.target;
+    contentGrid.innerHTML="";    
+    contentGrid.classList.add("content-grid-customisation");
+    getTopRatedMovies(1);
+})
+let showTopRatedMovies2 = document.getElementById("show-top-rated-movies")
+showTopRatedMovies2.addEventListener("click",(e)=>{
+    let obj = e.target;
+    contentGrid.innerHTML="";    
+    contentGrid.classList.add("content-grid-customisation");
+    getTopRatedMovies(1);
+})
 
 
 })
@@ -305,12 +334,3 @@ grid.addEventListener("click",(e)=>{
 
 })
 
-
-
-
-
-
-
-
-
-// let upcomingMoviesLabel = document
