@@ -8,6 +8,7 @@ let popular = document.querySelector(".recent-option")
 let topRated = document.querySelector(".top-rated-option")
 let help = document.querySelector(".help-option")
 let grid = document.getElementById("grid")
+let paging = document.querySelector(".paging")
 
 
 
@@ -167,7 +168,7 @@ showTopRatedMovies2.addEventListener("click",(e)=>{
 moviesTag.addEventListener("click",(e)=>{
 
     let obj = e.target;
-    // console.log(obj)
+    
 
     
 
@@ -184,6 +185,19 @@ moviesTag.addEventListener("click",(e)=>{
     contentGrid.innerHTML="";
     contentGrid.classList.add("content-grid-customisation")
     getMoviesTag(1);
+
+    paging.appendChild(pageLabel())
+    paging.appendChild(createPagingDiv())
+    
+    paging.addEventListener("click",(x)=>{
+        let obj2 = x.target;
+        contentGrid.innerHTML="";
+        getMoviesTag(obj2.id);
+    })
+
+    
+
+    
 
 
 })
@@ -333,4 +347,5 @@ grid.addEventListener("click",(e)=>{
     // mainContentGrid.classList.add("grid-1-model")
 
 })
+
 

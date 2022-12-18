@@ -470,6 +470,55 @@ async function getUpcomingMoviesDiv (param) {
 
 
 
-// click on top rated movies
+// function to return a paging div 
+
+function createPagingDiv() {
+    let pagingDiv = document.createElement("div");
+    
+
+    for(i=1;i<100;i++){
+
+    let p = document.createElement("p");
+    p.textContent= `${i}`;
+    p.id=`${i}`;
+        pagingDiv.appendChild(p);
+    }
+
+    
+
+    // let p1 = document.createElement("p");
+    // p1.textContent= "2";
+    // p1.id="2";
+
+
+    // let p2 = document.createElement("p");
+    // p2.textContent= "3";
+    // p2.id="3";
+    
+    // let p3 = document.createElement("p");
+    // p3.textContent= "4";
+    // p3.id="4";
+
+    // let p4 = document.createElement("p");
+    // p4.textContent= "5";
+    // p4.id="5";
+
+    // pagingDiv.appendChild(p);
+    // pagingDiv.appendChild(p1);
+    // pagingDiv.appendChild(p2);
+    // pagingDiv.appendChild(p3);
+    // pagingDiv.appendChild(p4);
+
+
+
+    return pagingDiv;
+}
+
+function pageLabel(){
+    let label = document.createElement("label");
+    label.textContent="Swipe left or right";
+    label.id="page-label"
+    return label;
+}
 
 
