@@ -441,6 +441,8 @@ async function getTrendingMovies(){
 function createUpcomingMoviesDiv(obj) {
     let mainDiv=document.createElement("div");
     mainDiv.classList.add("upcoming-movies-tag-div");
+    mainDiv.id=obj.id;
+    console.log(obj.id);
 
     let poster = document.createElement("img");
     poster.src = "https://image.tmdb.org/t/p/w500" + obj.poster_path;
@@ -456,7 +458,7 @@ async function getUpcomingMoviesDiv (param) {
         // console.log(response.results)
         
         for(i in response.results) {
-            
+            // console.log(response.results[i])
             contentGrid.appendChild(createUpcomingMoviesDiv(response.results[i]))
         }
 
@@ -519,6 +521,143 @@ function pageLabel(){
     label.textContent="Swipe left or right";
     label.id="page-label"
     return label;
+}
+
+
+// function create a modal 
+
+function createModal(obj){
+
+    let mainDiv=document.createElement("div");
+    mainDiv.classList.add("modal");
+
+    let poster = document.createElement("img");
+    poster.src = "https://image.tmdb.org/t/p/w500" + obj.poster_path;
+    mainDiv.appendChild(poster)
+
+    let secondDiv = document.createElement("div");
+    mainDiv.appendChild(secondDiv);
+    secondDiv.classList.add("modal-2div")
+
+
+    let title = document.createElement("p");
+    title.classList.add("modal-title")
+    title.textContent= obj.title;
+    secondDiv.appendChild(title)
+
+    let tagline = document.createElement("p");
+    tagline.classList.add("modal-tagline")
+    tagline.textContent= obj.tagline;
+    secondDiv.appendChild(tagline)
+
+    let genresDiv = document.createElement("div");
+    genresDiv.classList.add("modal-genres")
+    secondDiv.appendChild(genresDiv);
+    genresDiv.textContent="Genre : "
+
+    for(i in obj.genres){
+        // console.log(obj.genres[i])
+        let gen = document.createElement("p");
+        gen.textContent = obj.genres[i].name;
+        gen.style.color="rgb(152, 129, 0)"
+        genresDiv.appendChild(gen);
+    }
+
+    let overview = document.createElement("p");
+    overview.classList.add("modal-overview");
+    overview.textContent=obj.overview;
+    secondDiv.appendChild(overview)
+
+    let thirdDiv = document.createElement("div")
+    secondDiv.appendChild(thirdDiv)
+    thirdDiv.classList.add("modal-3div")
+
+
+    let popVote = document.createElement("div");
+    popVote.classList.add("pop-vote");
+    thirdDiv.appendChild(popVote);
+
+    let popularity = document.createElement("div");
+    popVote.appendChild(popularity)
+    popularity.id="pop"
+
+    let popImg = document.createElement("img");
+    popularity.appendChild(popImg);
+    popImg.src="./img/icons8-heart-suit-48.png"
+
+    let popP= document.createElement("p");
+    popularity.appendChild(popP)
+    popP.textContent= Math.floor(obj.popularity)
+
+
+    let vote = document.createElement("div");
+    popVote.appendChild(vote)
+    vote.id="vot"
+
+    let votP= document.createElement("p");
+    vote.appendChild(votP)
+    votP.textContent="Vote : "+obj.vote_average
+    
+    let budRed = document.createElement("div");
+    budRed.classList.add("bud-red")
+    thirdDiv.appendChild(budRed);
+
+    let budget = document.createElement("p");
+    budRed.appendChild(budget);
+    budget.id="budget"
+    budget.textContent= "Budget : "+obj.budget + "$"
+
+    let revenue = document.createElement("p");
+    thirdDiv.appendChild(revenue);
+    revenue.id="revenue"
+    revenue.textContent= "Revenue : "+obj.revenue + "$"
+    // homepage
+    // release date 
+
+    let prodDiv = document.createElement("div");
+    prodDiv.textContent="Production companies :"
+    secondDiv.appendChild(prodDiv)
+    prodDiv.classList.add("prod-div")
+
+
+    let prodComp = document.createElement("p");
+    prodComp.classList.add("prod-comp")
+    secondDiv.appendChild(prodComp)
+
+    for(i in obj.production_companies){
+        let p = document.createElement("p");
+        p.textContent = obj.production_companies[i].name;
+        prodComp.appendChild(p);
+    }
+
+    let countriesDiv = document.createElement("div");
+    countriesDiv.classList.add("countries-div");
+    countriesDiv.textContent = "Production Countries :"
+    secondDiv.appendChild(countriesDiv)
+
+
+    let prodCountries = document.createElement("div")
+    prodCountries.classList.add("prod-countries")
+    countriesDiv.appendChild(prodCountries)
+    
+    // production countries arr 
+
+    
+
+    for(i in obj.production_countries){
+        let p = document.createElement("p");
+        p.textContent = obj.production_countries[i].name;
+        prodCountries.appendChild(p);
+    }
+    
+
+    
+
+    
+
+
+
+    return mainDiv;
 }
 
 

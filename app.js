@@ -45,7 +45,12 @@ showUpcomingMovies.addEventListener("click",(e)=>{
     let obj = e.target;
     contentGrid.innerHTML="";    
     contentGrid.classList.add("content-grid-customisation");
+
     getUpcomingMoviesDiv(1);
+    
+    
+
+    
 })
 let showUpcomingMovies2 = document.getElementById("show-upcoming-movies")
 showUpcomingMovies2.addEventListener("click",(e)=>{
@@ -115,7 +120,7 @@ homeTab.addEventListener("click",(e)=>{
     contentGrid.innerHTML="";    
     contentGrid.classList.add("content-grid-customisation");
     getTrendingMovies();           
-})  
+    })  
 
     let trendingMoviesLabel2 = document.getElementById("show-trending-movies")
     trendingMoviesLabel2.addEventListener("click",(e)=>{
@@ -125,34 +130,35 @@ homeTab.addEventListener("click",(e)=>{
     contentGrid.innerHTML="";    
     contentGrid.classList.add("content-grid-customisation");
     getTrendingMovies();           
-})
+    })
 
 
-let showUpcomingMovies = document.querySelector(".show-upcoming-movies")
-showUpcomingMovies.addEventListener("click",(e)=>{
+    let showUpcomingMovies = document.querySelector(".show-upcoming-movies")
+    showUpcomingMovies.addEventListener("click",(e)=>{
     let obj = e.target;
     contentGrid.innerHTML="";    
     contentGrid.classList.add("content-grid-customisation");
     getUpcomingMoviesDiv(1);
-})
-let showUpcomingMovies2 = document.getElementById("show-upcoming-movies")
-showUpcomingMovies2.addEventListener("click",(e)=>{
+    })
+
+    let showUpcomingMovies2 = document.getElementById("show-upcoming-movies")
+    showUpcomingMovies2.addEventListener("click",(e)=>{
     let obj = e.target;
     contentGrid.innerHTML="";    
     contentGrid.classList.add("content-grid-customisation");
     getUpcomingMoviesDiv(1);
-})
+    })
 
 
-let showTopRatedMovies = document.querySelector(".show-top-rated-movies")
-showTopRatedMovies.addEventListener("click",(e)=>{
+    let showTopRatedMovies = document.querySelector(".show-top-rated-movies")
+    showTopRatedMovies.addEventListener("click",(e)=>{
     let obj = e.target;
     contentGrid.innerHTML="";    
     contentGrid.classList.add("content-grid-customisation");
     getTopRatedMovies(1);
-})
-let showTopRatedMovies2 = document.getElementById("show-top-rated-movies")
-showTopRatedMovies2.addEventListener("click",(e)=>{
+    })
+    let showTopRatedMovies2 = document.getElementById("show-top-rated-movies")
+    showTopRatedMovies2.addEventListener("click",(e)=>{
     let obj = e.target;
     contentGrid.innerHTML="";    
     contentGrid.classList.add("content-grid-customisation");
@@ -349,3 +355,26 @@ grid.addEventListener("click",(e)=>{
 })
 
 
+
+
+contentGrid.addEventListener("click",async (a)=>{
+
+    let obj =a.target;
+
+    if(obj.src){
+        console.log(obj.parentNode.id);
+
+        try {
+            let response = await fetch(`https://api.themoviedb.org/3/movie/${obj.parentNode.id}?api_key=23ba16be4dc35356bedc2b9b63c19363&language=en-US`)
+            response = await response.json();
+            // console.log(response)
+            let x = response;
+            console.log(x)
+            contentGrid.innerHTML="";
+            contentGrid.appendChild(createModal(x));
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+})
