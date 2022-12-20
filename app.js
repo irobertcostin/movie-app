@@ -9,6 +9,7 @@ let topRated = document.querySelector(".top-rated-option")
 let help = document.querySelector(".help-option")
 let grid = document.getElementById("grid")
 let paging = document.querySelector(".paging")
+let mainVersion = document.querySelector(".main-version");
 
 
 
@@ -81,6 +82,9 @@ showTopRatedMovies2.addEventListener("click",(e)=>{
 
 homeTab.addEventListener("click",(e)=>{
     // console.log(homeTab)
+    if(paging.children.length>0){
+        paging.innerHTML="";
+    }
 
     let obj = e.target;
     
@@ -170,8 +174,10 @@ homeTab.addEventListener("click",(e)=>{
 
 
 
-
 moviesTag.addEventListener("click",(e)=>{
+    if(paging.children.length>0){
+        paging.innerHTML="";
+    }
 
     let obj = e.target;
     
@@ -211,6 +217,9 @@ moviesTag.addEventListener("click",(e)=>{
 
 seriesTag.addEventListener("click",(e)=>{
 
+    if(paging.children.length>0){
+        paging.innerHTML="";
+    }
     let obj = e.target
 
     if (obj.id="series-tag"){
@@ -228,7 +237,16 @@ seriesTag.addEventListener("click",(e)=>{
     contentGrid.innerHTML=""
     contentGrid.classList.add("content-grid-customisation");
 
-    getSeriesTag(2);
+    getSeriesTag(1);
+
+    paging.appendChild(pageLabel())
+    paging.appendChild(createPagingDiv())
+    
+    paging.addEventListener("click",(x)=>{
+        let obj2 = x.target;
+        contentGrid.innerHTML="";
+        getSeriesTag(obj2.id);
+    })
 })
 
 
@@ -255,6 +273,9 @@ showsTag.addEventListener("click",(e)=>{
 
 
 comingSoon.addEventListener("click",(e)=>{
+    if(paging.children.length>0){
+        paging.innerHTML="";
+    }
 
     let obj = e.target;
     if (obj.classList.contains("coming-soon-option")){
@@ -273,12 +294,25 @@ comingSoon.addEventListener("click",(e)=>{
     contentGrid.classList.add("content-grid-customisation");
     getComingSoonMovies(1);
 
+    paging.appendChild(pageLabel())
+    paging.appendChild(createPagingDiv())
+    
+    paging.addEventListener("click",(x)=>{
+        let obj2 = x.target;
+        contentGrid.innerHTML="";
+        getComingSoonMovies(obj2.id);
+    })
+
 })
 
 
 popular.addEventListener("click",(e)=>{
+    if(paging.children.length>0){
+        paging.innerHTML="";
+    }
 
     let obj = e.target;
+    
     // console.log(obj)
 
     if (obj.classList.contains("recent-option")){
@@ -297,10 +331,15 @@ popular.addEventListener("click",(e)=>{
     contentGrid.classList.add("content-grid-customisation");
     getPopularMovies();
 
+
 })
 
 
 topRated.addEventListener("click",(e)=>{
+
+    if(paging.children.length>0){
+        paging.innerHTML="";
+    }
 
     let obj = e.target;
     // console.log(obj)
@@ -321,9 +360,22 @@ topRated.addEventListener("click",(e)=>{
     contentGrid.classList.add("content-grid-customisation");
     getTopRatedMovies(1);
 
+    paging.appendChild(pageLabel())
+    paging.appendChild(createPagingDiv())
+    
+    paging.addEventListener("click",(x)=>{
+        let obj2 = x.target;
+        contentGrid.innerHTML="";
+        getTopRatedMovies(obj2.id);
+    })
+
 })
 
 help.addEventListener("click",(e)=>{
+
+    if(paging.children.length>0){
+        paging.innerHTML="";
+    }
 
     let obj = e.target;
     // console.log(obj)
@@ -357,24 +409,74 @@ grid.addEventListener("click",(e)=>{
 
 
 
+
 contentGrid.addEventListener("click",async (a)=>{
 
+    let ex ;
+    
+    
     let obj =a.target;
 
+    // if()
+    // console.log(obj.parentNode.parentNode)
+
+    // if(obj.parentNode.parentNode.classList.contains("trending-content")){
+    //     console.log(obj.parentNode)
+    // }
+    
+    
+    
+    if(obj.parentNode.classList.contains("series-tag-div") || obj.parentNode.classList.contains("show-tag-div")){
+            try {
+                let response = await fetch(`https://api.themoviedb.org/3/tv/${obj.parentNode.id}?api_key=23ba16be4dc35356bedc2b9b63c19363&language=en-US`)
+                response = await response.json();
+                let x = response;
+            // console.log(x)
+                ex = contentGrid.innerHTML;
+                contentGrid.innerHTML="";
+                contentGrid.appendChild(createModal(x));
+
+                let btn = document.querySelector(".modal-btn");
+                
+                btn.addEventListener("click",()=>{
+                    contentGrid.innerHTML=ex;
+                    
+                })
+
+                
+            } catch (error) {
+                console.log(error)
+            }
+    }
+    else
+
     if(obj.src){
-        console.log(obj.parentNode.id);
+        
 
         try {
             let response = await fetch(`https://api.themoviedb.org/3/movie/${obj.parentNode.id}?api_key=23ba16be4dc35356bedc2b9b63c19363&language=en-US`)
             response = await response.json();
-            // console.log(response)
+            // console.log(obj)
             let x = response;
-            console.log(x)
-            contentGrid.innerHTML="";
+            // console.log(x)
+            ex = contentGrid.innerHTML;
+            contentGrid.innerHTML=""
             contentGrid.appendChild(createModal(x));
+
+            let btn = document.querySelector(".modal-btn");
+
+            btn.addEventListener("click",()=>{
+                contentGrid.innerHTML=ex;
+                
+            })
         } catch (error) {
             console.log(error)
         }
     }
+    
+
+    
+
+    
 
 })

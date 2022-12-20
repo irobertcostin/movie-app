@@ -1,6 +1,7 @@
 // function to create home page 
 
 let contentGrid = document.querySelector(".content-grid")
+let loader = `<div class="lds-default"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>`
 function homePage(){
     let mainDiv = document.createElement("div");
     mainDiv.classList.add("main-version");
@@ -87,6 +88,7 @@ function homePage(){
 
 function createTopRatedDiv (obj) {
     let filterDiv = document.createElement("div");
+    filterDiv.id=obj.id;
     
     let img = document.createElement("img");
     img.src="https://www.themoviedb.org/t/p/w440_and_h660_face" + obj.poster_path;
@@ -134,6 +136,7 @@ function createTrendingContentDiv (obj) {
 
     let mainDiv = document.createElement("div");
     mainDiv.classList.add("trending-movies-div")
+    mainDiv.id=obj.id
     let img = document.createElement("img")
     mainDiv.appendChild(img);
     img.src = "https://image.tmdb.org/t/p/w500" + obj.poster_path;
@@ -180,6 +183,7 @@ function createUpcomingContentDiv (obj) {
     let mainDiv = document.createElement("div");
     // mainDiv.classList.add("trending-movies-div")
     let img = document.createElement("img")
+    mainDiv.id=obj.id
     mainDiv.appendChild(img);
     img.src = "https://image.tmdb.org/t/p/w500" + obj.poster_path;
     
@@ -227,6 +231,7 @@ function createMoviesTagDiv(obj){
 
     let mainDiv=document.createElement("div");
     mainDiv.classList.add("movies-tag-div");
+    mainDiv.id=obj.id;
 
     let poster = document.createElement("img");
     poster.src = "https://image.tmdb.org/t/p/w500" + obj.poster_path;
@@ -234,11 +239,13 @@ function createMoviesTagDiv(obj){
     return mainDiv;
 }
 async function getMoviesTag(param) {
+    contentGrid.innerHTML=loader;
 
     try {
         let response = await fetch(`https://api.themoviedb.org/3/movie/popular?api_key=23ba16be4dc35356bedc2b9b63c19363&language=en-US&page=${param}`)
         response = await response.json();
         // console.log(response.results)
+        contentGrid.innerHTML="";
         for(i in response.results) {
             contentGrid.appendChild(createMoviesTagDiv(response.results[i]))
         }
@@ -256,6 +263,7 @@ function createSeriesTagDiv(obj){
 
     let mainDiv=document.createElement("div");
     mainDiv.classList.add("series-tag-div");
+    mainDiv.id=obj.id;
 
     let poster = document.createElement("img");
     poster.src = "https://image.tmdb.org/t/p/w500" + obj.poster_path;
@@ -264,9 +272,11 @@ function createSeriesTagDiv(obj){
 }
 
 async function getSeriesTag(param){
+    contentGrid.innerHTML=loader;
     try {
-        let response = await fetch(`https://api.themoviedb.org/3/tv/popular?api_key=23ba16be4dc35356bedc2b9b63c19363&language=en-US&page=${param}`)
+        let response = await fetch(`https://api.themoviedb.org/3/tv/airing_today?api_key=23ba16be4dc35356bedc2b9b63c19363&language=en-US&page=${param}`)
         response = await response.json();
+        contentGrid.innerHTML="";
         for(i in response.results){
             contentGrid.appendChild(createSeriesTagDiv(response.results[i]));
         }
@@ -282,6 +292,7 @@ function createShowTagDiv(obj){
 
     let mainDiv=document.createElement("div");
     mainDiv.classList.add("show-tag-div");
+    mainDiv.id=obj.id;
 
     let poster = document.createElement("img");
     poster.src = "https://image.tmdb.org/t/p/w500" + obj.poster_path;
@@ -290,9 +301,11 @@ function createShowTagDiv(obj){
 }
 
 async function getShowTag(param){
+    contentGrid.innerHTML=loader;
     try {
-        let response = await fetch(`https://api.themoviedb.org/3/tv/airing_today?api_key=23ba16be4dc35356bedc2b9b63c19363&language=en-US&page=${param}`)
+        let response = await fetch(`https://api.themoviedb.org/3/tv/popular?api_key=23ba16be4dc35356bedc2b9b63c19363&language=en-US&page=${param}`)
         response = await response.json();
+        contentGrid.innerHTML="";
         for(i in response.results){
             contentGrid.appendChild(createShowTagDiv(response.results[i]));
             // console.log(response.results[i]);
@@ -310,6 +323,7 @@ function createComingTagDiv(obj){
 
     let mainDiv=document.createElement("div");
     mainDiv.classList.add("upcoming-tag-div");
+    mainDiv.id=obj.id;
 
     let poster = document.createElement("img");
     poster.src = "https://image.tmdb.org/t/p/w500" + obj.poster_path;
@@ -318,12 +332,13 @@ function createComingTagDiv(obj){
 }
 
 async function getComingSoonMovies (param) {
+    contentGrid.innerHTML=loader;
 
     try{
         let response = await fetch(`https://api.themoviedb.org/3/movie/upcoming?api_key=23ba16be4dc35356bedc2b9b63c19363&language=en-US&page=${param}`)
         response = await response.json();
         // console.log(response.results)
-        
+        contentGrid.innerHTML="";
         for(i in response.results) {
             contentGrid.appendChild(createComingTagDiv(response.results[i]));
         }
@@ -343,6 +358,7 @@ function createPopularTagDiv(obj){
 
     let mainDiv=document.createElement("div");
     mainDiv.classList.add("popular-tag-div");
+    mainDiv.id=obj.id;
 
     let poster = document.createElement("img");
     poster.src = "https://image.tmdb.org/t/p/w500" + obj.poster_path;
@@ -351,12 +367,13 @@ function createPopularTagDiv(obj){
 }
 
 async function getPopularMovies() {
+    contentGrid.innerHTML=loader;
 
     try {
         
         let response = await fetch ("https://api.themoviedb.org/3/trending/all/day?api_key=23ba16be4dc35356bedc2b9b63c19363")
         response= await response.json();
-        
+        contentGrid.innerHTML="";
         for (i in response.results) {
             contentGrid.appendChild(createPopularTagDiv(response.results[i]));
         }
@@ -375,6 +392,7 @@ function createTopRatedTagDiv(obj){
 
     let mainDiv=document.createElement("div");
     mainDiv.classList.add("top-rated-tag-div");
+    mainDiv.id=obj.id;
 
     let poster = document.createElement("img");
     poster.src = "https://image.tmdb.org/t/p/w500" + obj.poster_path;
@@ -383,12 +401,13 @@ function createTopRatedTagDiv(obj){
 }
 
 async function getTopRatedMovies(param) {
+    contentGrid.innerHTML=loader;
 
     try {
         
         let response = await fetch (`https://api.themoviedb.org/3/movie/top_rated?api_key=23ba16be4dc35356bedc2b9b63c19363&language=en-US&page=${param}`)
         response= await response.json();
-        
+        contentGrid.innerHTML="";
         for (i in response.results) {
             contentGrid.appendChild(createTopRatedTagDiv(response.results[i]));
         }
@@ -409,6 +428,7 @@ function createTrendingMoviesDiv(obj){
 
     let mainDiv=document.createElement("div");
     mainDiv.classList.add("trending-movies-tag-div");
+    mainDiv.id=obj.id;
 
     let poster = document.createElement("img");
     poster.src = "https://image.tmdb.org/t/p/w500" + obj.poster_path;
@@ -417,12 +437,13 @@ function createTrendingMoviesDiv(obj){
 }
 
 async function getTrendingMovies(){
+    contentGrid.innerHTML=loader;
     try {
         let response = await fetch("https://api.themoviedb.org/3/trending/movie/week?api_key=23ba16be4dc35356bedc2b9b63c19363")
         response = await response.json();
 
         // console.log(response.results)
-
+        contentGrid.innerHTML="";
         for(i in response.results) {
             contentGrid.appendChild(createTrendingMoviesDiv(response.results[i]));
         }
@@ -451,12 +472,13 @@ function createUpcomingMoviesDiv(obj) {
 }
 
 async function getUpcomingMoviesDiv (param) {
+    contentGrid.innerHTML=loader;
 
     try{
         let response = await fetch(`https://api.themoviedb.org/3/movie/upcoming?api_key=23ba16be4dc35356bedc2b9b63c19363&language=en-US&page=${param}`)
         response = await response.json();
         // console.log(response.results)
-        
+        contentGrid.innerHTML="";
         for(i in response.results) {
             // console.log(response.results[i])
             contentGrid.appendChild(createUpcomingMoviesDiv(response.results[i]))
@@ -531,6 +553,8 @@ function createModal(obj){
     let mainDiv=document.createElement("div");
     mainDiv.classList.add("modal");
 
+    
+
     let poster = document.createElement("img");
     poster.src = "https://image.tmdb.org/t/p/w500" + obj.poster_path;
     mainDiv.appendChild(poster)
@@ -538,6 +562,11 @@ function createModal(obj){
     let secondDiv = document.createElement("div");
     mainDiv.appendChild(secondDiv);
     secondDiv.classList.add("modal-2div")
+
+    let btn = document.createElement("button");
+    secondDiv.appendChild(btn);
+    btn.textContent="Close";
+    btn.classList.add("modal-btn")
 
 
     let title = document.createElement("p");
@@ -640,23 +669,12 @@ function createModal(obj){
     prodCountries.classList.add("prod-countries")
     countriesDiv.appendChild(prodCountries)
     
-    // production countries arr 
-
-    
-
     for(i in obj.production_countries){
         let p = document.createElement("p");
         p.textContent = obj.production_countries[i].name;
         prodCountries.appendChild(p);
     }
     
-
-    
-
-    
-
-
-
     return mainDiv;
 }
 
