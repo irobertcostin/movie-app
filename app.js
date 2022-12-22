@@ -6,17 +6,17 @@ let showsTag = document.getElementById("tv-shows")
 let comingSoon = document.querySelector(".coming-soon-option")
 let popular = document.querySelector(".recent-option")
 let topRated = document.querySelector(".top-rated-option")
-let help = document.querySelector(".help-option")
+// let help = document.querySelector(".help-option")
 let grid = document.getElementById("grid")
 let paging = document.querySelector(".paging")
 let mainVersion = document.querySelector(".main-version");
-
+let searchInput = document.querySelector(".search-input")
 
 
 
 
 contentGrid.appendChild(homePage());
-topRatedContinut(1);    
+// topRatedContinut(1);    
 trendingMovies(); 
 getUpcomingMovies(1);
 
@@ -61,20 +61,20 @@ showUpcomingMovies2.addEventListener("click",(e)=>{
     getUpcomingMoviesDiv(1);
 })
 
-let showTopRatedMovies = document.querySelector(".show-top-rated-movies")
-showTopRatedMovies.addEventListener("click",(e)=>{
-    let obj = e.target;
-    contentGrid.innerHTML="";    
-    contentGrid.classList.add("content-grid-customisation");
-    getTopRatedMovies(1);
-})
-let showTopRatedMovies2 = document.getElementById("show-top-rated-movies")
-showTopRatedMovies2.addEventListener("click",(e)=>{
-    let obj = e.target;
-    contentGrid.innerHTML="";    
-    contentGrid.classList.add("content-grid-customisation");
-    getTopRatedMovies(1);
-})
+// let showTopRatedMovies = document.querySelector(".show-top-rated-movies")
+// showTopRatedMovies.addEventListener("click",(e)=>{
+//     let obj = e.target;
+//     contentGrid.innerHTML="";    
+//     contentGrid.classList.add("content-grid-customisation");
+//     getTopRatedMovies(1);
+// })
+// let showTopRatedMovies2 = document.getElementById("show-top-rated-movies")
+// showTopRatedMovies2.addEventListener("click",(e)=>{
+//     let obj = e.target;
+//     contentGrid.innerHTML="";    
+//     contentGrid.classList.add("content-grid-customisation");
+//     getTopRatedMovies(1);
+// })
 
 
 
@@ -101,6 +101,17 @@ homeTab.addEventListener("click",(e)=>{
         obj.classList.add("mark")
     }
 
+    if (obj.parentNode.classList.contains("home-option")){
+
+        if(document.querySelector(".mark"))
+        document.querySelector(".mark").classList.remove("mark")
+
+        if(document.querySelector(".mark2"))
+        document.querySelector(".mark2").classList.remove("mark2")
+        
+        
+        obj.parentNode.classList.add("mark")
+    }
     
 
     contentGrid.innerHTML="";
@@ -110,7 +121,7 @@ homeTab.addEventListener("click",(e)=>{
     
     
 
-    topRatedContinut(1);
+    // topRatedContinut(1);
     trendingMovies();
     getUpcomingMovies(1);
 
@@ -154,20 +165,20 @@ homeTab.addEventListener("click",(e)=>{
     })
 
 
-    let showTopRatedMovies = document.querySelector(".show-top-rated-movies")
-    showTopRatedMovies.addEventListener("click",(e)=>{
-    let obj = e.target;
-    contentGrid.innerHTML="";    
-    contentGrid.classList.add("content-grid-customisation");
-    getTopRatedMovies(1);
-    })
-    let showTopRatedMovies2 = document.getElementById("show-top-rated-movies")
-    showTopRatedMovies2.addEventListener("click",(e)=>{
-    let obj = e.target;
-    contentGrid.innerHTML="";    
-    contentGrid.classList.add("content-grid-customisation");
-    getTopRatedMovies(1);
-})
+//     let showTopRatedMovies = document.querySelector(".show-top-rated-movies")
+//     showTopRatedMovies.addEventListener("click",(e)=>{
+//     let obj = e.target;
+//     contentGrid.innerHTML="";    
+//     contentGrid.classList.add("content-grid-customisation");
+//     getTopRatedMovies(1);
+//     })
+//     let showTopRatedMovies2 = document.getElementById("show-top-rated-movies")
+//     showTopRatedMovies2.addEventListener("click",(e)=>{
+//     let obj = e.target;
+//     contentGrid.innerHTML="";    
+//     contentGrid.classList.add("content-grid-customisation");
+//     getTopRatedMovies(1);
+// })
 
 
 })
@@ -289,6 +300,18 @@ comingSoon.addEventListener("click",(e)=>{
         
         obj.classList.add("mark")
     }
+
+    if (obj.parentNode.classList.contains("coming-soon-option")){
+
+        if(document.querySelector(".mark"))
+        document.querySelector(".mark").classList.remove("mark")
+
+        if(document.querySelector(".mark2"))
+        document.querySelector(".mark2").classList.remove("mark2")
+        
+        
+        obj.parentNode.classList.add("mark")
+    }
     // console.log(obj)
     contentGrid.innerHTML="";
     contentGrid.classList.add("content-grid-customisation");
@@ -327,6 +350,18 @@ popular.addEventListener("click",(e)=>{
         obj.classList.add("mark")
     }
 
+    if (obj.parentNode.classList.contains("recent-option")){
+
+        if(document.querySelector(".mark"))
+        document.querySelector(".mark").classList.remove("mark")
+
+        if(document.querySelector(".mark2"))
+        document.querySelector(".mark2").classList.remove("mark2")
+        
+        
+        obj.parentNode.classList.add("mark")
+    }
+
     contentGrid.innerHTML="";
     contentGrid.classList.add("content-grid-customisation");
     getPopularMovies();
@@ -356,6 +391,19 @@ topRated.addEventListener("click",(e)=>{
         obj.classList.add("mark")
     }
 
+
+    if (obj.parentNode.classList.contains("top-rated-option")){
+
+        if(document.querySelector(".mark"))
+        document.querySelector(".mark").classList.remove("mark")
+
+        if(document.querySelector(".mark2"))
+        document.querySelector(".mark2").classList.remove("mark2")
+        
+        
+        obj.parentNode.classList.add("mark")
+    }
+
     contentGrid.innerHTML="";
     contentGrid.classList.add("content-grid-customisation");
     getTopRatedMovies(1);
@@ -371,40 +419,40 @@ topRated.addEventListener("click",(e)=>{
 
 })
 
-help.addEventListener("click",(e)=>{
+// help.addEventListener("click",(e)=>{
 
-    if(paging.children.length>0){
-        paging.innerHTML="";
-    }
+//     if(paging.children.length>0){
+//         paging.innerHTML="";
+//     }
 
-    let obj = e.target;
-    // console.log(obj)
+//     let obj = e.target;
+//     // console.log(obj)
 
-    if (obj.classList.contains("help-option")){
+//     if (obj.classList.contains("help-option")){
 
-        if(document.querySelector(".mark"))
-        document.querySelector(".mark").classList.remove("mark")
+//         if(document.querySelector(".mark"))
+//         document.querySelector(".mark").classList.remove("mark")
 
-        if(document.querySelector(".mark2"))
-        document.querySelector(".mark2").classList.remove("mark2")
+//         if(document.querySelector(".mark2"))
+//         document.querySelector(".mark2").classList.remove("mark2")
         
         
-        obj.classList.add("mark")
-    }
+//         obj.classList.add("mark")
+//     }
 
-    contentGrid.innerHTML="";
+//     contentGrid.innerHTML="";
 
-})
+// })
 
-grid.addEventListener("click",(e)=>{
+// grid.addEventListener("click",(e)=>{
 
-    let mainContentGrid = document.querySelector(".main-version")
+//     let mainContentGrid = document.querySelector(".main-version")
 
-    let obj = e.target;
-    console.log(obj);
-    // mainContentGrid.classList.add("grid-1-model")
+//     let obj = e.target;
+//     console.log(obj);
+//     // mainContentGrid.classList.add("grid-1-model")
 
-})
+// })
 
 
 
@@ -412,27 +460,24 @@ grid.addEventListener("click",(e)=>{
 
 contentGrid.addEventListener("click",async (a)=>{
 
-    let ex ;
-    
-    
+    let ex ;    
+    let exPage = paging.innerHTML;
     let obj =a.target;
-
-    // if()
-    // console.log(obj.parentNode.parentNode)
-
-    // if(obj.parentNode.parentNode.classList.contains("trending-content")){
-    //     console.log(obj.parentNode)
-    // }
-    
     
     
     if(obj.parentNode.classList.contains("series-tag-div") || obj.parentNode.classList.contains("show-tag-div")){
-            try {
+            
+        
+        try {
                 let response = await fetch(`https://api.themoviedb.org/3/tv/${obj.parentNode.id}?api_key=23ba16be4dc35356bedc2b9b63c19363&language=en-US`)
                 response = await response.json();
                 let x = response;
+                if(paging.children.length>0){
+                    paging.innerHTML="";
+                }
             // console.log(x)
                 ex = contentGrid.innerHTML;
+                
                 contentGrid.innerHTML="";
                 contentGrid.appendChild(createModal(x));
 
@@ -440,8 +485,10 @@ contentGrid.addEventListener("click",async (a)=>{
                 
                 btn.addEventListener("click",()=>{
                     contentGrid.innerHTML=ex;
-                    
+                    paging.innerHTML=exPage;
                 })
+
+                
 
                 
             } catch (error) {
@@ -450,7 +497,7 @@ contentGrid.addEventListener("click",async (a)=>{
     }
     else
 
-    if(obj.src){
+    if(obj.src && obj.parentNode.classList.contains("modal")==false){
         
 
         try {
@@ -458,6 +505,9 @@ contentGrid.addEventListener("click",async (a)=>{
             response = await response.json();
             // console.log(obj)
             let x = response;
+            if(paging.children.length>0){
+                paging.innerHTML="";
+            }
             // console.log(x)
             ex = contentGrid.innerHTML;
             contentGrid.innerHTML=""
@@ -467,16 +517,40 @@ contentGrid.addEventListener("click",async (a)=>{
 
             btn.addEventListener("click",()=>{
                 contentGrid.innerHTML=ex;
-                
+                paging.innerHTML=exPage;
             })
         } catch (error) {
             console.log(error)
         }
     }
-    
 
+})
+
+
+searchInput.addEventListener("keypress",(e)=>{
+    if(paging.children.length>0){
+        paging.innerHTML="";
+    }
+
+    if(e.key==="Enter"){
+        let j = searchInput.value;
+        searchInput.value="";
+        search(j)
+
+    paging.appendChild(pageLabel())
+    paging.appendChild(createPagingDiv())
     
+    paging.addEventListener("click",(x)=>{
+        let obj2 = x.target;
+        contentGrid.innerHTML="";
+        searchForPage(j,obj2.id);
+
+    })
+
+    }
 
     
 
 })
+
+

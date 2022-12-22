@@ -52,26 +52,26 @@ function homePage(){
     pUpcomingSeeAll.id="show-upcoming-movies"
     
 
-    let top = document.createElement("div");
-    mainDiv.appendChild(top)
-    top.classList.add("top-rated");
+    // let top = document.createElement("div");
+    // mainDiv.appendChild(top)
+    // top.classList.add("top-rated");
 
-    let topLabel = document.createElement("div");
-    top.appendChild(topLabel)
-    topLabel.classList.add("top-rated-label");
+    // let topLabel = document.createElement("div");
+    // top.appendChild(topLabel)
+    // topLabel.classList.add("top-rated-label");
 
-    let topContent = document.createElement("div");
-    top.appendChild(topContent)
-    topContent.classList.add("top-rated-content")
+    // let topContent = document.createElement("div");
+    // top.appendChild(topContent)
+    // topContent.classList.add("top-rated-content")
 
-    let pTop = document.createElement("p");
-    topLabel.appendChild(pTop);
-    pTop.textContent="Top rated movies";
-    pTop.classList.add("show-top-rated-movies")
-    let pTopSeeAll = document.createElement("p");
-    topLabel.appendChild(pTopSeeAll);
-    pTopSeeAll.textContent= "See all";
-    pTopSeeAll.id="show-top-rated-movies";
+    // let pTop = document.createElement("p");
+    // topLabel.appendChild(pTop);
+    // pTop.textContent="Top rated movies";
+    // pTop.classList.add("show-top-rated-movies")
+    // let pTopSeeAll = document.createElement("p");
+    // topLabel.appendChild(pTopSeeAll);
+    // pTopSeeAll.textContent= "See all";
+    // pTopSeeAll.id="show-top-rated-movies";
 
 
 
@@ -246,7 +246,7 @@ async function getMoviesTag(param) {
         response = await response.json();
         // console.log(response.results)
         contentGrid.innerHTML="";
-        for(i in response.results) {
+        for(i=0;i<10;i++){
             contentGrid.appendChild(createMoviesTagDiv(response.results[i]))
         }
     }
@@ -277,7 +277,7 @@ async function getSeriesTag(param){
         let response = await fetch(`https://api.themoviedb.org/3/tv/airing_today?api_key=23ba16be4dc35356bedc2b9b63c19363&language=en-US&page=${param}`)
         response = await response.json();
         contentGrid.innerHTML="";
-        for(i in response.results){
+        for(i=0;i<10;i++){
             contentGrid.appendChild(createSeriesTagDiv(response.results[i]));
         }
     } catch (error) {
@@ -306,7 +306,7 @@ async function getShowTag(param){
         let response = await fetch(`https://api.themoviedb.org/3/tv/popular?api_key=23ba16be4dc35356bedc2b9b63c19363&language=en-US&page=${param}`)
         response = await response.json();
         contentGrid.innerHTML="";
-        for(i in response.results){
+        for(i=0;i<10;i++){
             contentGrid.appendChild(createShowTagDiv(response.results[i]));
             // console.log(response.results[i]);
         }
@@ -339,7 +339,7 @@ async function getComingSoonMovies (param) {
         response = await response.json();
         // console.log(response.results)
         contentGrid.innerHTML="";
-        for(i in response.results) {
+        for(i=0;i<10;i++) {
             contentGrid.appendChild(createComingTagDiv(response.results[i]));
         }
 
@@ -374,7 +374,7 @@ async function getPopularMovies() {
         let response = await fetch ("https://api.themoviedb.org/3/trending/all/day?api_key=23ba16be4dc35356bedc2b9b63c19363")
         response= await response.json();
         contentGrid.innerHTML="";
-        for (i in response.results) {
+        for (i=0;i<10;i++) {
             contentGrid.appendChild(createPopularTagDiv(response.results[i]));
         }
 
@@ -408,7 +408,7 @@ async function getTopRatedMovies(param) {
         let response = await fetch (`https://api.themoviedb.org/3/movie/top_rated?api_key=23ba16be4dc35356bedc2b9b63c19363&language=en-US&page=${param}`)
         response= await response.json();
         contentGrid.innerHTML="";
-        for (i in response.results) {
+        for (i=0;i<10;i++){
             contentGrid.appendChild(createTopRatedTagDiv(response.results[i]));
         }
 
@@ -444,7 +444,7 @@ async function getTrendingMovies(){
 
         // console.log(response.results)
         contentGrid.innerHTML="";
-        for(i in response.results) {
+        for(i=0;i<10;i++) {
             contentGrid.appendChild(createTrendingMoviesDiv(response.results[i]));
         }
         
@@ -479,7 +479,7 @@ async function getUpcomingMoviesDiv (param) {
         response = await response.json();
         // console.log(response.results)
         contentGrid.innerHTML="";
-        for(i in response.results) {
+        for(i=0;i<10;i++) {
             // console.log(response.results[i])
             contentGrid.appendChild(createUpcomingMoviesDiv(response.results[i]))
         }
@@ -540,7 +540,7 @@ function createPagingDiv() {
 
 function pageLabel(){
     let label = document.createElement("label");
-    label.textContent="Swipe left or right";
+    label.textContent="Swipe for more pages";
     label.id="page-label"
     return label;
 }
@@ -678,4 +678,63 @@ function createModal(obj){
     return mainDiv;
 }
 
+
+
+// search functions 
+
+function createSearchResultDiv(obj){
+
+    let mainDiv=document.createElement("div");
+    mainDiv.classList.add("search-result-div");
+    mainDiv.id=obj.id;
+
+    let poster = document.createElement("img");
+    poster.src = "https://image.tmdb.org/t/p/w500" + obj.poster_path;
+    mainDiv.appendChild(poster)
+    return mainDiv;
+}
+
+async function search(param) {
+
+
+    try {
+        let response = await fetch (`https://api.themoviedb.org/3/search/movie?api_key=23ba16be4dc35356bedc2b9b63c19363&language=en-US&query=${param}&include_adult=false`)
+        response = await response.json();
+        console.log(response);
+        // console.log(response.page)
+        // console.log(response.results)
+        contentGrid.innerHTML="";
+        for(i=0;i<10;i++){
+            contentGrid.appendChild(createSearchResultDiv(response.results[i]));
+            contentGrid.classList.add("content-grid-customisation")
+        }
+        
+    } catch (error) {
+        console.log(error)
+    }
+
+}
+
+async function searchForPage(param,page) {
+
+
+    try {
+        let response = await fetch (`https://api.themoviedb.org/3/search/movie?api_key=23ba16be4dc35356bedc2b9b63c19363&language=en-US&query=${param}&page=${page}&include_adult=false`)
+        response = await response.json();
+        console.log(response);
+        // console.log(response.page)
+        // console.log(response.results)
+        contentGrid.innerHTML="";
+        for(i=0;i<10;i++){
+            contentGrid.appendChild(createSearchResultDiv(response.results[i]));
+            contentGrid.classList.add("content-grid-customisation")
+        }
+
+
+
+    } catch (error) {
+        console.log(error)
+    }
+
+}
 
