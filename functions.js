@@ -1,5 +1,5 @@
 // function to create home page 
-
+let filters = document.querySelector(".filters");
 let contentGrid = document.querySelector(".content-grid")
 let loader = `<div class="lds-default"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>`
 function homePage(){
@@ -736,5 +736,107 @@ async function searchForPage(param,page) {
         console.log(error)
     }
 
+}
+
+
+
+
+// Filters / Genres
+
+// create genre div 
+function createGenreDiv (obj){
+    let mainDiv = document.createElement("li");
+    mainDiv.classList.add("filter-pattern");
+    mainDiv.textContent= obj.name;
+    mainDiv.id=obj.id
+    return mainDiv;
+}
+
+// filter button
+function createFilterBtn () {
+    let btn = document.createElement("button")
+    btn.classList.add("apply");
+
+    btn.textContent = "Apply filters"
+
+    return btn;
+}
+
+// async search for genres
+function createFilteredDiv(obj) {
+    let mainDiv=document.createElement("div");
+    mainDiv.classList.add("filter-resulted");
+    mainDiv.id=obj.id;
+    console.log(obj.id);
+
+    let poster = document.createElement("img");
+    poster.src = "https://image.tmdb.org/t/p/w500" + obj.poster_path;
+    mainDiv.appendChild(poster)
+    return mainDiv;
+}
+
+
+async function filterForGenre(param){
+    contentGrid.innerHTML=loader;
+    try {
+        let response = await fetch(`
+        https://api.themoviedb.org/3/discover/movie?api_key=23ba16be4dc35356bedc2b9b63c19363&language=en-US&include_adult=false&include_video=false&page=1&with_genres=${param}`)
+        response = await response.json();
+        // console.log(response.results);
+        contentGrid.innerHTML="";
+        for(i=0;i<10;i++){
+            // console.log(response.results[i]);
+            contentGrid.appendChild(createFilteredDiv(response.results[i]));
+            contentGrid.classList.add("content-grid-customisation")
+        }
+    } catch (error) {
+        console.log(error)
+    }
+
+
+}
+
+
+async function filterForPage(param,page) {
+
+
+    try {
+        let response = await fetch (`https://api.themoviedb.org/3/discover/movie?api_key=23ba16be4dc35356bedc2b9b63c19363&language=en-US&include_adult=false&include_video=false&page=${page}&with_genres=${param}`)
+        response = await response.json();
+        
+        contentGrid.innerHTML="";
+        for(i=0;i<10;i++){
+            contentGrid.appendChild(createFilteredDiv(response.results[i]));
+            contentGrid.classList.add("content-grid-customisation")
+        }
+
+
+
+    } catch (error) {
+        console.log(error)
+    }
+
+}
+
+
+// get genres 
+
+
+async function getGenresList(){
+    filters.innerHTML="";
+    try {
+        let response = await fetch(`https://api.themoviedb.org/3/genre/movie/list?api_key=23ba16be4dc35356bedc2b9b63c19363&language=en-US`)
+        response = await response.json();
+        // console.log(response.genres)
+
+        for (i=0;i<10;i++){
+            
+            
+            filters.appendChild(createGenreDiv(response.genres[i]))
+        }
+    } catch (error) {
+        console.log(error)
+    }
+    filters.appendChild(createFilterBtn());
 }
 

@@ -11,18 +11,20 @@ let grid = document.getElementById("grid")
 let paging = document.querySelector(".paging")
 let mainVersion = document.querySelector(".main-version");
 let searchInput = document.querySelector(".search-input")
-
-
+let filterExpand = document.querySelector(".filter-options").firstElementChild;
+let apply = document.querySelector(".apply");
 
 
 contentGrid.appendChild(homePage());
 // topRatedContinut(1);    
 trendingMovies(); 
 getUpcomingMovies(1);
+getGenresList();
+filters.id="hide";
 
 let trendingMoviesLabel = document.querySelector(".show-trending-movies")
 trendingMoviesLabel.addEventListener("click",(e)=>{
-
+    filters.id="hide";
 let obj = e.target
 console.log(obj);
 
@@ -33,7 +35,7 @@ getTrendingMovies();
 
 let trendingMoviesLabel2 = document.getElementById("show-trending-movies")
 trendingMoviesLabel2.addEventListener("click",(e)=>{
-
+    filters.id="hide";
 let obj = e.target
 // console.log(obj);
 contentGrid.innerHTML="";    
@@ -43,6 +45,7 @@ getTrendingMovies();
 
 let showUpcomingMovies = document.querySelector(".show-upcoming-movies")
 showUpcomingMovies.addEventListener("click",(e)=>{
+    filters.id="hide";
     let obj = e.target;
     contentGrid.innerHTML="";    
     contentGrid.classList.add("content-grid-customisation");
@@ -55,6 +58,7 @@ showUpcomingMovies.addEventListener("click",(e)=>{
 })
 let showUpcomingMovies2 = document.getElementById("show-upcoming-movies")
 showUpcomingMovies2.addEventListener("click",(e)=>{
+    filters.id="hide";
     let obj = e.target;
     contentGrid.innerHTML="";    
     contentGrid.classList.add("content-grid-customisation");
@@ -82,6 +86,7 @@ showUpcomingMovies2.addEventListener("click",(e)=>{
 
 homeTab.addEventListener("click",(e)=>{
     // console.log(homeTab)
+    filters.id="hide";
     if(paging.children.length>0){
         paging.innerHTML="";
     }
@@ -165,34 +170,19 @@ homeTab.addEventListener("click",(e)=>{
     })
 
 
-//     let showTopRatedMovies = document.querySelector(".show-top-rated-movies")
-//     showTopRatedMovies.addEventListener("click",(e)=>{
-//     let obj = e.target;
-//     contentGrid.innerHTML="";    
-//     contentGrid.classList.add("content-grid-customisation");
-//     getTopRatedMovies(1);
-//     })
-//     let showTopRatedMovies2 = document.getElementById("show-top-rated-movies")
-//     showTopRatedMovies2.addEventListener("click",(e)=>{
-//     let obj = e.target;
-//     contentGrid.innerHTML="";    
-//     contentGrid.classList.add("content-grid-customisation");
-//     getTopRatedMovies(1);
-// })
-
-
 })
 
 
 
 moviesTag.addEventListener("click",(e)=>{
+    filters.id="hide";
     if(paging.children.length>0){
         paging.innerHTML="";
     }
 
     let obj = e.target;
     
-
+    
     
 
     if(obj.id="movies-tag"){
@@ -215,7 +205,11 @@ moviesTag.addEventListener("click",(e)=>{
     paging.addEventListener("click",(x)=>{
         let obj2 = x.target;
         contentGrid.innerHTML="";
-        getMoviesTag(obj2.id);
+        
+        if(document.getElementById("movies-tag").classList.contains("mark2")&&filters.id==="hide"){
+            // getMoviesTag(obj2.id);
+        }
+        
     })
 
     
@@ -227,7 +221,7 @@ moviesTag.addEventListener("click",(e)=>{
 
 
 seriesTag.addEventListener("click",(e)=>{
-
+    filters.id="hide";
     if(paging.children.length>0){
         paging.innerHTML="";
     }
@@ -256,12 +250,13 @@ seriesTag.addEventListener("click",(e)=>{
     paging.addEventListener("click",(x)=>{
         let obj2 = x.target;
         contentGrid.innerHTML="";
-        getSeriesTag(obj2.id);
+        // getSeriesTag(obj2.id);
     })
 })
 
 
 showsTag.addEventListener("click",(e)=>{
+    filters.id="hide";
     let obj = e.target
     if (obj.id="shows-tag"){
 
@@ -284,6 +279,7 @@ showsTag.addEventListener("click",(e)=>{
 
 
 comingSoon.addEventListener("click",(e)=>{
+    filters.id="hide";
     if(paging.children.length>0){
         paging.innerHTML="";
     }
@@ -313,6 +309,8 @@ comingSoon.addEventListener("click",(e)=>{
         obj.parentNode.classList.add("mark")
     }
     // console.log(obj)
+
+    
     contentGrid.innerHTML="";
     contentGrid.classList.add("content-grid-customisation");
     getComingSoonMovies(1);
@@ -322,14 +320,23 @@ comingSoon.addEventListener("click",(e)=>{
     
     paging.addEventListener("click",(x)=>{
         let obj2 = x.target;
-        contentGrid.innerHTML="";
-        getComingSoonMovies(obj2.id);
+        
+    
+            
+        if(obj2.parentNode.parentNode.previousElementSibling.previousElementSibling.firstElementChild.children[1].classList.contains("coming-soon-option mark")){
+            
+            contentGrid.innerHTML="";
+        // console.log("coming soon")
+            // getComingSoonMovies(obj2.id);
+        } 
+        
     })
 
 })
 
 
 popular.addEventListener("click",(e)=>{
+    filters.id="hide";
     if(paging.children.length>0){
         paging.innerHTML="";
     }
@@ -371,6 +378,7 @@ popular.addEventListener("click",(e)=>{
 
 
 topRated.addEventListener("click",(e)=>{
+    filters.id="hide";
 
     if(paging.children.length>0){
         paging.innerHTML="";
@@ -414,51 +422,19 @@ topRated.addEventListener("click",(e)=>{
     paging.addEventListener("click",(x)=>{
         let obj2 = x.target;
         contentGrid.innerHTML="";
-        getTopRatedMovies(obj2.id);
+        // getTopRatedMovies(obj2.id);
     })
 
 })
 
-// help.addEventListener("click",(e)=>{
 
-//     if(paging.children.length>0){
-//         paging.innerHTML="";
-//     }
-
-//     let obj = e.target;
-//     // console.log(obj)
-
-//     if (obj.classList.contains("help-option")){
-
-//         if(document.querySelector(".mark"))
-//         document.querySelector(".mark").classList.remove("mark")
-
-//         if(document.querySelector(".mark2"))
-//         document.querySelector(".mark2").classList.remove("mark2")
-        
-        
-//         obj.classList.add("mark")
-//     }
-
-//     contentGrid.innerHTML="";
-
-// })
-
-// grid.addEventListener("click",(e)=>{
-
-//     let mainContentGrid = document.querySelector(".main-version")
-
-//     let obj = e.target;
-//     console.log(obj);
-//     // mainContentGrid.classList.add("grid-1-model")
-
-// })
 
 
 
 
 
 contentGrid.addEventListener("click",async (a)=>{
+    filters.id="hide";
 
     let ex ;    
     let exPage = paging.innerHTML;
@@ -528,9 +504,17 @@ contentGrid.addEventListener("click",async (a)=>{
 
 
 searchInput.addEventListener("keypress",(e)=>{
+    filters.id="hide";
     if(paging.children.length>0){
         paging.innerHTML="";
     }
+
+    if(document.querySelector(".mark"))
+    document.querySelector(".mark").classList.remove("mark")
+
+    if(document.querySelector(".mark2"))
+    document.querySelector(".mark2").classList.remove("mark2")
+    
 
     if(e.key==="Enter"){
         let j = searchInput.value;
@@ -554,3 +538,147 @@ searchInput.addEventListener("keypress",(e)=>{
 })
 
 
+filterExpand.addEventListener("click",(a)=>{
+    
+    let obj =a.target
+    // console.log(obj)
+    // obj.classList.add("mark")
+    
+    
+    if (obj.parentNode.classList.contains("filter-options")){
+
+        if(document.querySelector(".mark"))
+        document.querySelector(".mark").classList.remove("mark")
+
+        if(document.querySelector(".mark2"))
+        document.querySelector(".mark2").classList.remove("mark2")
+        
+        
+        obj.classList.add("mark")
+    }
+
+    if (obj.classList.contains("filter-options")){
+
+        if(document.querySelector(".mark"))
+        document.querySelector(".mark").classList.remove("mark")
+
+        if(document.querySelector(".mark2"))
+        document.querySelector(".mark2").classList.remove("mark2")
+        
+        
+        obj.classList.add("mark")
+    } 
+
+    if(obj.textContent=="Filter by genres"){
+        obj.parentNode.classList.add("mark")
+    }
+
+    if(filters.id==="hide"){
+        filters.id=""
+        
+    } 
+    else {
+        filters.id="hide";
+        filters.previousElementSibling.classList.remove("mark")
+        document.querySelector(".filter-options").firstElementChild.classList.remove("mark")
+
+        for(i=0;i<filters.children.length;i++){
+            if(filters.children[i].classList.contains("filter-mark")){
+                filters.children[i].classList.remove("filter-mark")
+                filters.children[i].classList.add("filter-pattern")
+            }
+            
+        }
+    }
+
+
+})
+
+let arr = [];
+let text="";
+
+filters.addEventListener("click", async (b)=>{
+    let obj = b.target;
+    
+    
+
+    if(obj.classList.contains("filter-mark")==false&&obj.classList.contains("filters")==false){
+        obj.classList.add("filter-mark")
+        obj.classList.remove("filter-pattern")
+    } else {
+        obj.classList.remove("filter-mark")
+        obj.classList.add("filter-pattern")
+    }
+
+    if(document.querySelector(".filters").classList.contains("filter-pattern")){
+        document.querySelector(".filters").classList.remove("filter-pattern")
+    }
+
+    if(obj.classList.contains("filter-mark")&&obj.textContent!=="Apply filters") {
+        arr.push(obj.id);
+        
+    }
+
+    if(obj.classList.contains("apply")){
+        contentGrid.innerHTML="";
+        if(paging.children.length>0){
+            paging.innerHTML="";
+        }
+        obj.classList.remove("filter-mark")
+        obj.classList.remove("filter-pattern")
+        for(i=0;i<filters.children.length;i++){
+            if(filters.children[i].classList.contains("filter-mark")){
+                filters.children[i].classList.remove("filter-mark")
+                filters.children[i].classList.add("filter-pattern")
+            }
+            
+        }
+
+        for(i=0;i<arr.length;i++){
+            // console.log(arr[i])
+            if(arr.length<2){
+                text += arr[i]
+            }else if (arr.length>1){
+                text = text +","+ arr[i];
+            }
+            // text = text +" "+ arr[i];
+        }
+        
+        console.log(text)
+        filterForGenre(text);
+        
+        // paging.appendChild(pageLabel())
+        // paging.appendChild(createPagingDiv())
+    
+        // paging.addEventListener("click",(x)=>{
+        // let obj2 = x.target;
+        // contentGrid.innerHTML="";
+        // if(filters.id!=="hide"&&filters.previousElementSibling.classList.contains("mark")){
+        //     filterForPage(text,obj2.id);
+        // }
+
+        
+        
+        // })
+
+        arr = [];
+        text="";
+        
+        
+    }
+
+    
+    
+    
+})
+
+// home tab see all has no paging 
+// to add swipe arrows 
+// to add liked movies by ID
+// to add recommended/suggestions in modal function
+// to add Watch Providers 
+// next / previous modal functions 
+// content sliding under menu library
+// multiple fetches because of paging event listeners 
+// when click apply, filsters should remain active
+// after search/hit enter , mark should be cleared
