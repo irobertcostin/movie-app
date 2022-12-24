@@ -552,6 +552,7 @@ function createModal(obj){
 
     let mainDiv=document.createElement("div");
     mainDiv.classList.add("modal");
+    mainDiv.id=obj.id
 
     
 
@@ -563,10 +564,24 @@ function createModal(obj){
     mainDiv.appendChild(secondDiv);
     secondDiv.classList.add("modal-2div")
 
-    let btn = document.createElement("button");
-    secondDiv.appendChild(btn);
-    btn.textContent="Close";
-    btn.classList.add("modal-btn")
+    let buttonsDiv = document.createElement("div")
+    buttonsDiv.classList.add("buttons-div");
+    secondDiv.appendChild(buttonsDiv)
+
+    let previousBtn = document.createElement("button");
+    previousBtn.textContent="Previous";
+    previousBtn.classList.add("previous-btn")
+    buttonsDiv.appendChild(previousBtn);
+
+    let closeBtn = document.createElement("button");
+    closeBtn.textContent="Close";
+    closeBtn.classList.add("modal-btn")
+    buttonsDiv.appendChild(closeBtn);
+
+    let nextBtn = document.createElement("button");
+    nextBtn.textContent="Next";
+    nextBtn.classList.add("next-btn")
+    buttonsDiv.appendChild(nextBtn);
 
 
     let title = document.createElement("p");

@@ -1440,7 +1440,19 @@ margin-top: 30px;
     border-radius: 5px;
     /* align-self: center; */
     cursor: pointer;
+    width: 72px;
     
+}
+
+.previous-btn {
+    background-color: rebeccapurple;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    /* align-self: center; */
+    cursor: pointer;
+    width: 72px;
 }
 
 
@@ -1449,9 +1461,36 @@ margin-top: 30px;
 
 }
 
+.previous-btn:hover {
+    background-color: red;
+
+}
 
 
+.next-btn {
+    background-color: rebeccapurple;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    /* align-self: center; */
+    cursor: pointer;
+    width: 72px;
+    
+}
 
+
+.next-btn:hover {
+    background-color: red;
+
+}
+
+.buttons-div {
+    /* border: 2px solid red; */
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
 
 
 
@@ -1461,8 +1500,11 @@ margin-top: 30px;
     position: relative;
     width: 80px;
     height: 80px;
+    /* margin-left: 49%;
+    margin-top: 37vh; */
+    /* border: 2px solid red; */
 
-    margin-top: 30%;
+    /* margin-top: 30%; */
 }
 .lds-default div {
     position: absolute;

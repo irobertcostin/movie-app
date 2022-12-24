@@ -193,24 +193,32 @@ moviesTag.addEventListener("click",(e)=>{
         document.querySelector(".mark2").classList.remove("mark2")
 
         obj.classList.add("mark2");
-    }
 
-    contentGrid.innerHTML="";
-    contentGrid.classList.add("content-grid-customisation")
-    getMoviesTag(1);
 
-    paging.appendChild(pageLabel())
-    paging.appendChild(createPagingDiv())
+
+        contentGrid.innerHTML="";
+        contentGrid.classList.add("content-grid-customisation")
+        getMoviesTag(1);
+
+        paging.appendChild(pageLabel())
+        paging.appendChild(createPagingDiv())
     
-    paging.addEventListener("click",(x)=>{
+        paging.addEventListener("click",(x)=>{
         let obj2 = x.target;
         contentGrid.innerHTML="";
         
         if(document.getElementById("movies-tag").classList.contains("mark2")&&filters.id==="hide"){
-            // getMoviesTag(obj2.id);
+            getMoviesTag(obj2.id);
+            alert("test")
         }
+        // else {console.log("test")}
         
     })
+
+
+    }
+
+    
 
     
 
@@ -235,28 +243,40 @@ seriesTag.addEventListener("click",(e)=>{
         if(document.querySelector(".mark2"))
         document.querySelector(".mark2").classList.remove("mark2")
         
-        
         obj.classList.add("mark2")
+
+
+        contentGrid.innerHTML=""
+        contentGrid.classList.add("content-grid-customisation");
+    
+        getSeriesTag(1);
+    
+        paging.appendChild(pageLabel())
+        paging.appendChild(createPagingDiv())
+        
+        paging.addEventListener("click",(x)=>{
+            let obj2 = x.target;
+            contentGrid.innerHTML="";
+
+            if(document.getElementById("series-tag").classList.contains("mark2")&&filters.id==="hide"){
+                getSeriesTag(obj2.id);
+                // alert("test")
+            }
+
+            
+        })
+
     }
 
-    contentGrid.innerHTML=""
-    contentGrid.classList.add("content-grid-customisation");
-
-    getSeriesTag(1);
-
-    paging.appendChild(pageLabel())
-    paging.appendChild(createPagingDiv())
     
-    paging.addEventListener("click",(x)=>{
-        let obj2 = x.target;
-        contentGrid.innerHTML="";
-        // getSeriesTag(obj2.id);
-    })
 })
 
 
 showsTag.addEventListener("click",(e)=>{
     filters.id="hide";
+    if(paging.children.length>0){
+        paging.innerHTML="";
+    }
     let obj = e.target
     if (obj.id="shows-tag"){
 
@@ -439,6 +459,8 @@ contentGrid.addEventListener("click",async (a)=>{
     let ex ;    
     let exPage = paging.innerHTML;
     let obj =a.target;
+
+    let idArr = [];
     
     
     if(obj.parentNode.classList.contains("series-tag-div") || obj.parentNode.classList.contains("show-tag-div")){
@@ -463,9 +485,7 @@ contentGrid.addEventListener("click",async (a)=>{
                     contentGrid.innerHTML=ex;
                     paging.innerHTML=exPage;
                 })
-
                 
-
                 
             } catch (error) {
                 console.log(error)
@@ -474,8 +494,13 @@ contentGrid.addEventListener("click",async (a)=>{
     else
 
     if(obj.src && obj.parentNode.classList.contains("modal")==false){
+        let previousElementId = obj.parentNode.previousElementSibling.id;
+        let nextElementId = obj.parentNode.nextElementSibling.id;
+        console.log(nextElementId);
+        console.log(previousElementId)
         
-
+        contentGrid.innerHTML=loader;
+        
         try {
             let response = await fetch(`https://api.themoviedb.org/3/movie/${obj.parentNode.id}?api_key=23ba16be4dc35356bedc2b9b63c19363&language=en-US`)
             response = await response.json();
@@ -489,12 +514,31 @@ contentGrid.addEventListener("click",async (a)=>{
             contentGrid.innerHTML=""
             contentGrid.appendChild(createModal(x));
 
+
             let btn = document.querySelector(".modal-btn");
 
             btn.addEventListener("click",()=>{
                 contentGrid.innerHTML=ex;
                 paging.innerHTML=exPage;
             })
+
+
+            let nextBtn = document.querySelector(".next-btn")
+            nextBtn.addEventListener("click",(s)=>{
+            contentGrid.innerHTML=""
+            contentGrid.innerHTML=loader;
+            // contentGrid.appendChild(createModal())
+            let obj2=s.target
+            console.log(obj2)
+            })
+
+            let prevBtn = document.querySelector(".previous-btn")
+            prevBtn.addEventListener("click",(s)=>{
+            let obj2=s.target
+            console.log(obj2)
+            })
+
+
         } catch (error) {
             console.log(error)
         }
@@ -672,7 +716,11 @@ filters.addEventListener("click", async (b)=>{
     
 })
 
-// home tab see all has no paging 
+
+
+
+// paging not working for any of the elements  
+// home tab see all/trending/upcoming have no paging 
 // to add swipe arrows 
 // to add liked movies by ID
 // to add recommended/suggestions in modal function
@@ -682,3 +730,8 @@ filters.addEventListener("click", async (b)=>{
 // multiple fetches because of paging event listeners 
 // when click apply, filsters should remain active
 // after search/hit enter , mark should be cleared
+// to include loader in home functions 
+// filters button and border still bugged 
+// tv without paging and async for TV pages
+// without customisation class, loader position is flex-start
+// how to 1fr 1fr , but 210px and remaining 
