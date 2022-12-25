@@ -300,10 +300,12 @@ function createShowTagDiv(obj){
     return mainDiv;
 }
 
+// https://api.themoviedb.org/3/tv/popular?api_key=23ba16be4dc35356bedc2b9b63c19363&language=en-US&page=${param}
+
 async function getShowTag(param){
     contentGrid.innerHTML=loader;
     try {
-        let response = await fetch(`https://api.themoviedb.org/3/tv/popular?api_key=23ba16be4dc35356bedc2b9b63c19363&language=en-US&page=${param}`)
+        let response = await fetch(`https://api.themoviedb.org/3/tv/airing_today?api_key=23ba16be4dc35356bedc2b9b63c19363&language=en-US&page=${param}`)
         response = await response.json();
         contentGrid.innerHTML="";
         for(i=0;i<10;i++){

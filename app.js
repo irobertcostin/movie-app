@@ -209,7 +209,7 @@ moviesTag.addEventListener("click",(e)=>{
         
         if(document.getElementById("movies-tag").classList.contains("mark2")&&filters.id==="hide"){
             getMoviesTag(obj2.id);
-            alert("test")
+            alert("test1")
         }
         // else {console.log("test")}
         
@@ -260,7 +260,7 @@ seriesTag.addEventListener("click",(e)=>{
 
             if(document.getElementById("series-tag").classList.contains("mark2")&&filters.id==="hide"){
                 getSeriesTag(obj2.id);
-                // alert("test")
+                alert("test2")
             }
 
             
@@ -294,6 +294,18 @@ showsTag.addEventListener("click",(e)=>{
     contentGrid.classList.add("content-grid-customisation");
     getShowTag(2);
 
+    paging.appendChild(pageLabel())
+        paging.appendChild(createPagingDiv())
+        
+        paging.addEventListener("click",(x)=>{
+            let obj2 = x.target;
+            contentGrid.innerHTML="";
+
+            if(document.getElementById("shows-tag").classList.contains("mark2")&&filters.id==="hide"){
+                getShowTag(obj2.id);
+                alert("test3")
+            }
+        })
 })
 
 
@@ -343,12 +355,10 @@ comingSoon.addEventListener("click",(e)=>{
         
     
             
-        if(obj2.parentNode.parentNode.previousElementSibling.previousElementSibling.firstElementChild.children[1].classList.contains("coming-soon-option mark")){
-            
-            contentGrid.innerHTML="";
-        // console.log("coming soon")
-            // getComingSoonMovies(obj2.id);
-        } 
+        if(comingSoon.classList.contains("mark")&&filters.id==="hide"){
+            getComingSoonMovies(obj2.id);
+            // alert("test4")
+        }
         
     })
 
@@ -442,7 +452,12 @@ topRated.addEventListener("click",(e)=>{
     paging.addEventListener("click",(x)=>{
         let obj2 = x.target;
         contentGrid.innerHTML="";
-        // getTopRatedMovies(obj2.id);
+        if(topRated.classList.contains("mark")&&filters.id==="hide"){
+            getTopRatedMovies(obj2.id);
+            // alert("test5")
+        }
+        
+        // 
     })
 
 })
@@ -460,7 +475,9 @@ contentGrid.addEventListener("click",async (a)=>{
     let exPage = paging.innerHTML;
     let obj =a.target;
 
-    let idArr = [];
+    let nextElementId ;
+    let previousElementId ;
+    
     
     
     if(obj.parentNode.classList.contains("series-tag-div") || obj.parentNode.classList.contains("show-tag-div")){
@@ -494,11 +511,17 @@ contentGrid.addEventListener("click",async (a)=>{
     else
 
     if(obj.src && obj.parentNode.classList.contains("modal")==false){
-        let previousElementId = obj.parentNode.previousElementSibling.id;
-        let nextElementId = obj.parentNode.nextElementSibling.id;
+
+        if(obj.parentNode.nextElementSibling.id!= null) {
+            nextElementId = obj.parentNode.nextElementSibling.id;
+        }
+        
+        previousElementId = obj.parentNode.previousElementSibling.id;
         console.log(nextElementId);
         console.log(previousElementId)
-        
+
+
+        ex = contentGrid.innerHTML;
         contentGrid.innerHTML=loader;
         
         try {
@@ -510,41 +533,126 @@ contentGrid.addEventListener("click",async (a)=>{
                 paging.innerHTML="";
             }
             // console.log(x)
-            ex = contentGrid.innerHTML;
+            
             contentGrid.innerHTML=""
             contentGrid.appendChild(createModal(x));
 
 
-            let btn = document.querySelector(".modal-btn");
+            
+            
+            let nextBtn = document.querySelector(".next-btn")
+            nextBtn.addEventListener("click",async (s)=>{
 
+                console.log(nextElementId)
+                try {
+                            let response = await fetch (`https://api.themoviedb.org/3/movie/${nextElementId}?api_key=23ba16be4dc35356bedc2b9b63c19363&language=en-US`)
+                            response = await response.json();
+                            console.log(response)
+                            contentGrid.innerHTML="";
+                            contentGrid.appendChild(createModal(response))
+                            
+                        } catch (error) {
+                            console.log(error)
+                        }
+
+                let btn = document.querySelector(".modal-btn");
+                btn.addEventListener("click",()=>{
+                    contentGrid.innerHTML=ex;
+                    paging.innerHTML=exPage;
+                })
+
+            })
+
+            let prevBtn = document.querySelector(".previous-btn")
+            prevBtn.addEventListener("click",async (s)=>{
+
+                console.log(previousElementId)
+                try {
+                    let response = await fetch (`https://api.themoviedb.org/3/movie/${previousElementId}?api_key=23ba16be4dc35356bedc2b9b63c19363&language=en-US`)
+                    response = await response.json();
+                    console.log(response)
+                    contentGrid.innerHTML="";
+                    contentGrid.appendChild(createModal(response))
+                    
+                } catch (error) {
+                    console.log(error)
+                }
+
+        let btn = document.querySelector(".modal-btn");
+        btn.addEventListener("click",()=>{
+            contentGrid.innerHTML=ex;
+            paging.innerHTML=exPage;
+        })
+
+
+            })
+
+
+            let btn = document.querySelector(".modal-btn");
             btn.addEventListener("click",()=>{
                 contentGrid.innerHTML=ex;
                 paging.innerHTML=exPage;
             })
-
-
-            let nextBtn = document.querySelector(".next-btn")
-            nextBtn.addEventListener("click",(s)=>{
-            contentGrid.innerHTML=""
-            contentGrid.innerHTML=loader;
-            // contentGrid.appendChild(createModal())
-            let obj2=s.target
-            console.log(obj2)
-            })
-
-            let prevBtn = document.querySelector(".previous-btn")
-            prevBtn.addEventListener("click",(s)=>{
-            let obj2=s.target
-            console.log(obj2)
-            })
-
-
+            
         } catch (error) {
             console.log(error)
         }
+
+
+        
     }
 
+    // if(obj.classList.contains("next-btn")){
+    //         console.log(nextElementId)
+    //     // try {
+    //     //     let response = await fetch (`https://api.themoviedb.org/3/movie/${nextElementId}?api_key=23ba16be4dc35356bedc2b9b63c19363&language=en-US`)
+    //     //     response = await response.json();
+    //     //     console.log(response)
+    //     //     contentGrid.innerHTML="";
+    //     //     contentGrid.appendChild(createModal(response))
+            
+    //     // } catch (error) {
+    //     //     console.log(error)
+    //     // }
+    // }
+
+
+    // if(obj.classList.contains("previous-btn")){
+    //     console.log(previousElementId)
+        
+    // }
+
+    // let nextBtn = document.querySelector(".next-btn")
+    //         nextBtn.addEventListener("click",async (s)=>{
+    //         contentGrid.innerHTML=""
+    //         contentGrid.innerHTML=loader;
+    //         // contentGrid.appendChild(createModal())
+    //         let obj2=s.target
+    //                 try {
+    //                     let response = await fetch (`https://api.themoviedb.org/3/movie/${nextElementId}?api_key=23ba16be4dc35356bedc2b9b63c19363&language=en-US`)
+    //                     response = await response.json();
+    //                     console.log(response)
+    //                     contentGrid.innerHTML="";
+    //                     contentGrid.appendChild(createModal(response))
+                        
+                    
+    //                 } catch (error) {
+    //                     console.log(error)
+    //                 }
+                
+    //         })
+
+
+
+
 })
+
+
+
+
+
+
+
 
 
 searchInput.addEventListener("keypress",(e)=>{
@@ -735,3 +843,6 @@ filters.addEventListener("click", async (b)=>{
 // tv without paging and async for TV pages
 // without customisation class, loader position is flex-start
 // how to 1fr 1fr , but 210px and remaining 
+// prev / next / only works once, cannot extract other elements id/s
+// try with memorized positions of DOM children
+// maybe include the next/prev in the function
