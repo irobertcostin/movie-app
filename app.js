@@ -13,7 +13,11 @@ let mainVersion = document.querySelector(".main-version");
 let searchInput = document.querySelector(".search-input")
 let filterExpand = document.querySelector(".filter-options").firstElementChild;
 let apply = document.querySelector(".apply");
+let expand = document.getElementById("expand")
+let titleLabel = document.getElementById("menu-label");
 
+let trendingContent = document.querySelector(".trending-content")
+let upcomingMovies = document.querySelector(".upcoming-movies-content")
 
 contentGrid.appendChild(homePage());
 // topRatedContinut(1);    
@@ -26,11 +30,13 @@ let trendingMoviesLabel = document.querySelector(".show-trending-movies")
 trendingMoviesLabel.addEventListener("click",(e)=>{
     filters.id="hide";
 let obj = e.target
-console.log(obj);
+// console.log(obj);
 
-contentGrid.innerHTML="";    
+contentGrid.innerHTML="";   
+contentGrid.innerHTML=loader; 
 contentGrid.classList.add("content-grid-customisation");
-getTrendingMovies();           
+getTrendingMovies();        
+
 })  
 
 let trendingMoviesLabel2 = document.getElementById("show-trending-movies")
@@ -135,7 +141,7 @@ homeTab.addEventListener("click",(e)=>{
     trendingMoviesLabel.addEventListener("click",(e)=>{
     
     let obj = e.target
-    console.log(obj);
+    // console.log(obj);
     
     contentGrid.innerHTML="";    
     contentGrid.classList.add("content-grid-customisation");
@@ -193,24 +199,33 @@ moviesTag.addEventListener("click",(e)=>{
         document.querySelector(".mark2").classList.remove("mark2")
 
         obj.classList.add("mark2");
-    }
 
-    contentGrid.innerHTML="";
-    contentGrid.classList.add("content-grid-customisation")
-    getMoviesTag(1);
 
-    paging.appendChild(pageLabel())
-    paging.appendChild(createPagingDiv())
+
+        contentGrid.innerHTML="";
+        contentGrid.innerHTML=loader;
+        contentGrid.classList.add("content-grid-customisation")
+        getMoviesTag(1);
+
+        paging.appendChild(pageLabel())
+        paging.appendChild(createPagingDiv())
     
-    paging.addEventListener("click",(x)=>{
+        paging.addEventListener("click",(x)=>{
         let obj2 = x.target;
         contentGrid.innerHTML="";
         
         if(document.getElementById("movies-tag").classList.contains("mark2")&&filters.id==="hide"){
-            // getMoviesTag(obj2.id);
+            getMoviesTag(obj2.id);
+            // alert("test1")
         }
+        // else {console.log("test")}
         
     })
+
+
+    }
+
+    
 
     
 
@@ -235,28 +250,40 @@ seriesTag.addEventListener("click",(e)=>{
         if(document.querySelector(".mark2"))
         document.querySelector(".mark2").classList.remove("mark2")
         
-        
         obj.classList.add("mark2")
+
+
+        contentGrid.innerHTML=""
+        contentGrid.classList.add("content-grid-customisation");
+    
+        getSeriesTag(1);
+    
+        paging.appendChild(pageLabel())
+        paging.appendChild(createPagingDiv())
+        
+        paging.addEventListener("click",(x)=>{
+            let obj2 = x.target;
+            contentGrid.innerHTML="";
+
+            if(document.getElementById("series-tag").classList.contains("mark2")&&filters.id==="hide"){
+                getSeriesTag(obj2.id);
+                
+            }
+
+            
+        })
+
     }
 
-    contentGrid.innerHTML=""
-    contentGrid.classList.add("content-grid-customisation");
-
-    getSeriesTag(1);
-
-    paging.appendChild(pageLabel())
-    paging.appendChild(createPagingDiv())
     
-    paging.addEventListener("click",(x)=>{
-        let obj2 = x.target;
-        contentGrid.innerHTML="";
-        // getSeriesTag(obj2.id);
-    })
 })
 
 
 showsTag.addEventListener("click",(e)=>{
     filters.id="hide";
+    if(paging.children.length>0){
+        paging.innerHTML="";
+    }
     let obj = e.target
     if (obj.id="shows-tag"){
 
@@ -274,6 +301,18 @@ showsTag.addEventListener("click",(e)=>{
     contentGrid.classList.add("content-grid-customisation");
     getShowTag(2);
 
+    paging.appendChild(pageLabel())
+        paging.appendChild(createPagingDiv())
+        
+        paging.addEventListener("click",(x)=>{
+            let obj2 = x.target;
+            contentGrid.innerHTML="";
+
+            if(document.getElementById("shows-tag").classList.contains("mark2")&&filters.id==="hide"){
+                getShowTag(obj2.id);
+                
+            }
+        })
 })
 
 
@@ -323,12 +362,10 @@ comingSoon.addEventListener("click",(e)=>{
         
     
             
-        if(obj2.parentNode.parentNode.previousElementSibling.previousElementSibling.firstElementChild.children[1].classList.contains("coming-soon-option mark")){
-            
-            contentGrid.innerHTML="";
-        // console.log("coming soon")
-            // getComingSoonMovies(obj2.id);
-        } 
+        if(comingSoon.classList.contains("mark")&&filters.id==="hide"){
+            getComingSoonMovies(obj2.id);
+            // alert("test4")
+        }
         
     })
 
@@ -422,7 +459,12 @@ topRated.addEventListener("click",(e)=>{
     paging.addEventListener("click",(x)=>{
         let obj2 = x.target;
         contentGrid.innerHTML="";
-        // getTopRatedMovies(obj2.id);
+        if(topRated.classList.contains("mark")&&filters.id==="hide"){
+            getTopRatedMovies(obj2.id);
+            // alert("test5")
+        }
+        
+        // 
     })
 
 })
@@ -439,6 +481,10 @@ contentGrid.addEventListener("click",async (a)=>{
     let ex ;    
     let exPage = paging.innerHTML;
     let obj =a.target;
+
+    // let nextElementId ;
+    // let previousElementId ;
+    
     
     
     if(obj.parentNode.classList.contains("series-tag-div") || obj.parentNode.classList.contains("show-tag-div")){
@@ -451,7 +497,7 @@ contentGrid.addEventListener("click",async (a)=>{
                 if(paging.children.length>0){
                     paging.innerHTML="";
                 }
-            // console.log(x)
+            console.log(x)
                 ex = contentGrid.innerHTML;
                 
                 contentGrid.innerHTML="";
@@ -463,9 +509,7 @@ contentGrid.addEventListener("click",async (a)=>{
                     contentGrid.innerHTML=ex;
                     paging.innerHTML=exPage;
                 })
-
                 
-
                 
             } catch (error) {
                 console.log(error)
@@ -474,8 +518,19 @@ contentGrid.addEventListener("click",async (a)=>{
     else
 
     if(obj.src && obj.parentNode.classList.contains("modal")==false){
-        
 
+        // if(obj.parentNode.nextElementSibling.id!= null) {
+        //     
+        // }
+        // nextElementId = obj.parentNode.nextElementSibling.id;
+        // previousElementId = obj.parentNode.previousElementSibling.id;
+        // console.log(nextElementId);
+        // console.log(previousElementId)
+
+
+        ex = contentGrid.innerHTML;
+        contentGrid.innerHTML=loader;
+        console.log(ex)
         try {
             let response = await fetch(`https://api.themoviedb.org/3/movie/${obj.parentNode.id}?api_key=23ba16be4dc35356bedc2b9b63c19363&language=en-US`)
             response = await response.json();
@@ -485,22 +540,112 @@ contentGrid.addEventListener("click",async (a)=>{
                 paging.innerHTML="";
             }
             // console.log(x)
-            ex = contentGrid.innerHTML;
+            
             contentGrid.innerHTML=""
             contentGrid.appendChild(createModal(x));
 
-            let btn = document.querySelector(".modal-btn");
 
+            
+            
+        //     let nextBtn = document.querySelector(".next-btn")
+        //     nextBtn.addEventListener("click",async (s)=>{
+
+        //         // console.log(nextElementId)
+        //         try {
+        //                     let response = await fetch (`https://api.themoviedb.org/3/movie/${nextElementId}?api_key=23ba16be4dc35356bedc2b9b63c19363&language=en-US`)
+        //                     response = await response.json();
+        //                     console.log(response)
+        //                     contentGrid.innerHTML="";
+        //                     contentGrid.appendChild(createModal(response))
+                            
+        //                 } catch (error) {
+        //                     console.log(error)
+        //                 }
+
+        //         let btn = document.querySelector(".modal-btn");
+        //         btn.addEventListener("click",()=>{
+        //             contentGrid.innerHTML=ex;
+        //             paging.innerHTML=exPage;
+        //         })
+
+        //     })
+
+        //     let prevBtn = document.querySelector(".previous-btn")
+        //     prevBtn.addEventListener("click",async (s)=>{
+
+        //         // console.log(previousElementId)
+        //         try {
+        //             let response = await fetch (`https://api.themoviedb.org/3/movie/${previousElementId}?api_key=23ba16be4dc35356bedc2b9b63c19363&language=en-US`)
+        //             response = await response.json();
+        //             // console.log(response)
+        //             contentGrid.innerHTML="";
+        //             contentGrid.appendChild(createModal(response))
+                    
+        //         } catch (error) {
+        //             console.log(error)
+        //         }
+
+        // let btn = document.querySelector(".modal-btn");
+        // btn.addEventListener("click",()=>{
+        //     contentGrid.innerHTML=ex;
+        //     paging.innerHTML=exPage;
+        // })
+
+
+        //     })
+
+
+            let btn = document.querySelector(".modal-btn");
             btn.addEventListener("click",()=>{
                 contentGrid.innerHTML=ex;
                 paging.innerHTML=exPage;
             })
+            
         } catch (error) {
             console.log(error)
         }
+        
+    }
+})
+
+
+
+
+
+document.querySelector(".w-6").addEventListener("click",(e)=>{
+
+    let obj = e.target
+
+
+    filters.id="hide";
+    if(paging.children.length>0){
+        paging.innerHTML="";
     }
 
+    if(document.querySelector(".mark"))
+    document.querySelector(".mark").classList.remove("mark")
+
+    if(document.querySelector(".mark2"))
+    document.querySelector(".mark2").classList.remove("mark2")
+    
+
+    
+        console.log("test")
+        let j = searchInput.value;
+        searchInput.value="";
+        search(j)
+
+    paging.appendChild(pageLabel())
+    paging.appendChild(createPagingDiv())
+    
+    paging.addEventListener("click",(x)=>{
+        let obj2 = x.target;
+        contentGrid.innerHTML="";
+        searchForPage(j,obj2.id);
+    })
+    
 })
+
 
 
 searchInput.addEventListener("keypress",(e)=>{
@@ -528,13 +673,8 @@ searchInput.addEventListener("keypress",(e)=>{
         let obj2 = x.target;
         contentGrid.innerHTML="";
         searchForPage(j,obj2.id);
-
     })
-
     }
-
-    
-
 })
 
 
@@ -554,11 +694,10 @@ filterExpand.addEventListener("click",(a)=>{
         document.querySelector(".mark2").classList.remove("mark2")
         
         
-        obj.classList.add("mark")
-    }
-
-    if (obj.classList.contains("filter-options")){
-
+        obj.parentNode.classList.add("mark")
+    } 
+    else if (obj.textContent=="Filters"){
+        console.log(obj)
         if(document.querySelector(".mark"))
         document.querySelector(".mark").classList.remove("mark")
 
@@ -566,12 +705,9 @@ filterExpand.addEventListener("click",(a)=>{
         document.querySelector(".mark2").classList.remove("mark2")
         
         
-        obj.classList.add("mark")
+        obj.parentNode.parentNode.classList.add("mark")
     } 
 
-    if(obj.textContent=="Filter by genres"){
-        obj.parentNode.classList.add("mark")
-    }
 
     if(filters.id==="hide"){
         filters.id=""
@@ -579,8 +715,8 @@ filterExpand.addEventListener("click",(a)=>{
     } 
     else {
         filters.id="hide";
-        filters.previousElementSibling.classList.remove("mark")
-        document.querySelector(".filter-options").firstElementChild.classList.remove("mark")
+        
+        document.querySelector(".filter-options").classList.remove("mark")
 
         for(i=0;i<filters.children.length;i++){
             if(filters.children[i].classList.contains("filter-mark")){
@@ -594,14 +730,19 @@ filterExpand.addEventListener("click",(a)=>{
 
 })
 
-let arr = [];
-let text="";
+// let arr = [];
+
 
 filters.addEventListener("click", async (b)=>{
-    let obj = b.target;
-    
+
+        let text="";
+        let marked = []
+        let marked2=[];
+        let f = document.querySelectorAll(".filter-mark");
+        let aux;
     
 
+    let obj = b.target;
     if(obj.classList.contains("filter-mark")==false&&obj.classList.contains("filters")==false){
         obj.classList.add("filter-mark")
         obj.classList.remove("filter-pattern")
@@ -613,73 +754,167 @@ filters.addEventListener("click", async (b)=>{
     if(document.querySelector(".filters").classList.contains("filter-pattern")){
         document.querySelector(".filters").classList.remove("filter-pattern")
     }
-
-    if(obj.classList.contains("filter-mark")&&obj.textContent!=="Apply filters") {
-        arr.push(obj.id);
-        
-    }
-
+    
+    
     if(obj.classList.contains("apply")){
+
+        
+        // every marked element pushed in array, to get genres IDs
+        for (i in f) {
+            marked.push(+f[i].id)
+        }
+
+
+        // makred returned also NaN and 0 values, if an element was unselected, so refiltered in this for
+        for(i in marked) {
+            if (marked[i]>0){
+                marked2.push(marked[i])
+            }
+        }
+        
+
+        // keep clean paging
         contentGrid.innerHTML="";
         if(paging.children.length>0){
             paging.innerHTML="";
         }
+        
+
+        // keep the apply filters button unchanged 
         obj.classList.remove("filter-mark")
         obj.classList.remove("filter-pattern")
-        for(i=0;i<filters.children.length;i++){
-            if(filters.children[i].classList.contains("filter-mark")){
-                filters.children[i].classList.remove("filter-mark")
-                filters.children[i].classList.add("filter-pattern")
-            }
-            
-        }
 
-        for(i=0;i<arr.length;i++){
-            // console.log(arr[i])
-            if(arr.length<2){
-                text += arr[i]
-            }else if (arr.length>1){
-                text = text +","+ arr[i];
-            }
-            // text = text +" "+ arr[i];
-        }
-        
-        console.log(text)
-        filterForGenre(text);
-        
-        // paging.appendChild(pageLabel())
-        // paging.appendChild(createPagingDiv())
-    
-        // paging.addEventListener("click",(x)=>{
-        // let obj2 = x.target;
-        // contentGrid.innerHTML="";
-        // if(filters.id!=="hide"&&filters.previousElementSibling.classList.contains("mark")){
-        //     filterForPage(text,obj2.id);
+
+        // clean all marks and reset filters
+        // for(i=0;i<filters.children.length;i++){
+        //     if(filters.children[i].classList.contains("filter-mark")){
+        //         filters.children[i].classList.remove("filter-mark")
+        //         filters.children[i].classList.add("filter-pattern")
+        //     }
+            
         // }
 
         
         
-        // })
+        // converting IDs to string for search
+        for(i=0;i<marked2.length;i++){
+            
+            if(marked2.length<2){
+                text += marked2[i]
+            }else if (marked2.length>1){
+                text =marked2[i]  +","+ text;
+            }
+            
+        }
+        console.log(text)
+        filterForGenre(text);
+        
+        // applying search with filters
+        
+        paging.appendChild(pageLabel())
+        paging.appendChild(createPagingDiv())
+    
+        paging.addEventListener("click",(x)=>{
 
-        arr = [];
-        text="";
+            
+            
+            
+            
+        let obj2 = x.target;
+        contentGrid.innerHTML="";
+        contentGrid.innerHTML=loader;
+
+        // if filters not hidden and Filters contains mark , search for genres
+        if( filters.id!=="hide"&&filters.parentNode.classList.contains("mark")==true){
+            marked=[];
+            marked2=[];
+            text="";
+            
+
+            for (i in f) {
+                marked.push(+f[i].id)
+            }
+    
+    
+            // marked returned also NaN and 0 values, if an element was unselected, so refiltered in this for
+            for(i in marked) {
+                if (marked[i]>0){
+                    marked2.push(marked[i])
+                }
+            }
+
+            
+
+            // objects from DOM to string
+            for(i=0;i<marked2.length;i++){
+            
+                if(marked2.length<2){
+                    text += marked2[i]
+                }else if (marked2.length>1){
+                    text =marked2[i]  +","+ text;
+                }
+                
+            }
+            marked2=[]
+            
+            console.log(text)
+            contentGrid.innerHTML="";
+            filterForPage(text,obj2.id);
+            
+            
+        }
+        
+        
+        })
+        
         
         
     }
-
     
-    
+        
     
 })
 
-// home tab see all has no paging 
+expand.addEventListener("click", (e)=>{
+
+let obj = e.target;
+if(obj.textContent == "☞"){
+    obj.textContent="☜"
+    document.querySelector(".menu-library").classList.add("unhide-library")
+    filters.classList.remove("move-filters")
+}
+
+else if(obj.textContent == "☜"){
+    obj.textContent="☞"
+    document.querySelector(".menu-library").classList.remove("unhide-library")
+    filters.classList.add("move-filters")
+}
+// obj.textContent=""
+
+})
+
+
+titleLabel.addEventListener("click", (e)=> {
+    let obj = e.target;
+
+    if(obj.id == "menu-label") {
+        contentGrid.innerHTML="";
+        contentGrid.classList.remove("content-grid-customisation")
+        contentGrid.appendChild(homePage());
+        trendingMovies(); 
+        getUpcomingMovies(1);
+        getGenresList();
+        filters.id="hide";
+        paging.innerHTML="";
+    }
+})
+
+
+
+
+
 // to add swipe arrows 
-// to add liked movies by ID
-// to add recommended/suggestions in modal function
 // to add Watch Providers 
-// next / previous modal functions 
-// content sliding under menu library
-// multiple fetches because of paging event listeners 
-// when click apply, filsters should remain active
-// after search/hit enter , mark should be cleared
-// expandable user div with transition and width from 0 to max
+
+//on mobile, recheck modal dimensions
+
