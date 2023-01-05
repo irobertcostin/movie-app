@@ -1,7 +1,7 @@
 // function to create home page 
 let filters = document.querySelector(".filters");
 let contentGrid = document.querySelector(".content-grid")
-let loader = `<div class="lds-default"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>`
+let loader = `<div class="loader"><div class="lds-default"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div>`
 function homePage(){
     let mainDiv = document.createElement("div");
     mainDiv.classList.add("main-version");
@@ -26,7 +26,7 @@ function homePage(){
     let pTrendingSeeAll = document.createElement("p");
     trendingLabel.appendChild(pTrendingSeeAll);
     pTrendingSeeAll.id="show-trending-movies"
-    pTrendingSeeAll.textContent= "See all";
+    pTrendingSeeAll.textContent= "See top 20";
 
 
     let upcoming = document.createElement("div");
@@ -48,7 +48,7 @@ function homePage(){
     let pUpcomingSeeAll = document.createElement("p");
     upcomingLabel.appendChild(pUpcomingSeeAll);
     // pUpcomingSeeAll.classList.add("show-trending-movies")
-    pUpcomingSeeAll.textContent= "See all";
+    pUpcomingSeeAll.textContent= "See top 20";
     pUpcomingSeeAll.id="show-upcoming-movies"
     
 
@@ -109,24 +109,25 @@ function createTopRatedDiv (obj) {
     return filterDiv;
 }
 
-async function topRatedContinut () {
-    try{
-        let response = await fetch("https://api.themoviedb.org/3/movie/top_rated?api_key=23ba16be4dc35356bedc2b9b63c19363&language=en-US&page=1")
-        response = await response.json()
+// async function topRatedContinut () {    
+//     topRatedContent.innerHTML=loader;
+//     try{
+//         let response = await fetch("https://api.themoviedb.org/3/movie/top_rated?api_key=23ba16be4dc35356bedc2b9b63c19363&language=en-US&page=1")
+//         response = await response.json()
 
-        // console.log(response.results)
-        // topRatedContent.appendChild(createTopRatedDiv(response.results[0]))
-        // console.log(response.results[0])
+//         // console.log(response.results)
+//         // topRatedContent.appendChild(createTopRatedDiv(response.results[0]))
+//         // console.log(response.results[0])
+//         topRatedContent.innerHTML="";
+//         for(i in response.results) {
+            
+//             topRatedContent.appendChild(createTopRatedDiv(response.results[i]));
+//         }
         
-        for(i in response.results) {
-            let topRatedContent = document.querySelector(".top-rated-content")
-            topRatedContent.appendChild(createTopRatedDiv(response.results[i]));
-        }
-        
-    }   catch(err) {
-        console.log(err)
-    }
-}
+//     }   catch(err) {
+//         console.log(err)
+//     }
+// }
 
 
 
@@ -154,15 +155,16 @@ function createTrendingContentDiv (obj) {
     return mainDiv;
 }
 async function trendingMovies () {
-
+    let trendingContent = document.querySelector(".trending-content")
+    trendingContent.innerHTML=loader;
     try {
         let response = await fetch("https://api.themoviedb.org/3/trending/movie/week?api_key=23ba16be4dc35356bedc2b9b63c19363")
         response = await response.json();
 
         // console.log(response.results)
-
+trendingContent.innerHTML="";
         for(i in response.results) {
-            let trendingContent = document.querySelector(".trending-content")
+            
             trendingContent.appendChild(createTrendingContentDiv(response.results[i]))
         }
         
@@ -204,14 +206,15 @@ function createUpcomingContentDiv (obj) {
     return mainDiv;
 }
 async function getUpcomingMovies (param) {
-
+    let upcomingMovies = document.querySelector(".upcoming-movies-content");
+    upcomingMovies.innerHTML=loader;
     try{
         let response = await fetch(`https://api.themoviedb.org/3/movie/upcoming?api_key=23ba16be4dc35356bedc2b9b63c19363&language=en-US&page=${param}`)
         response = await response.json();
         // console.log(response.results)
-        
+        upcomingMovies.innerHTML=""
         for(i in response.results) {
-            let upcomingMovies = document.querySelector(".upcoming-movies-content")
+            
             upcomingMovies.appendChild(createUpcomingContentDiv(response.results[i]))
         }
 
@@ -509,40 +512,12 @@ function createPagingDiv() {
     p.id=`${i}`;
         pagingDiv.appendChild(p);
     }
-
-    
-
-    // let p1 = document.createElement("p");
-    // p1.textContent= "2";
-    // p1.id="2";
-
-
-    // let p2 = document.createElement("p");
-    // p2.textContent= "3";
-    // p2.id="3";
-    
-    // let p3 = document.createElement("p");
-    // p3.textContent= "4";
-    // p3.id="4";
-
-    // let p4 = document.createElement("p");
-    // p4.textContent= "5";
-    // p4.id="5";
-
-    // pagingDiv.appendChild(p);
-    // pagingDiv.appendChild(p1);
-    // pagingDiv.appendChild(p2);
-    // pagingDiv.appendChild(p3);
-    // pagingDiv.appendChild(p4);
-
-
-
     return pagingDiv;
 }
 
 function pageLabel(){
     let label = document.createElement("label");
-    label.textContent="Swipe for more pages";
+    label.textContent="<< Swipe >>";
     label.id="page-label"
     return label;
 }
@@ -570,20 +545,20 @@ function createModal(obj){
     buttonsDiv.classList.add("buttons-div");
     secondDiv.appendChild(buttonsDiv)
 
-    let previousBtn = document.createElement("button");
-    previousBtn.textContent="Previous";
-    previousBtn.classList.add("previous-btn")
-    buttonsDiv.appendChild(previousBtn);
+    // let previousBtn = document.createElement("button");
+    // previousBtn.textContent="Previous";
+    // previousBtn.classList.add("previous-btn")
+    // buttonsDiv.appendChild(previousBtn);
 
     let closeBtn = document.createElement("button");
     closeBtn.textContent="Close";
     closeBtn.classList.add("modal-btn")
     buttonsDiv.appendChild(closeBtn);
 
-    let nextBtn = document.createElement("button");
-    nextBtn.textContent="Next";
-    nextBtn.classList.add("next-btn")
-    buttonsDiv.appendChild(nextBtn);
+    // let nextBtn = document.createElement("button");
+    // nextBtn.textContent="Next";
+    // nextBtn.classList.add("next-btn")
+    // buttonsDiv.appendChild(nextBtn);
 
 
     let title = document.createElement("p");
@@ -733,7 +708,7 @@ async function search(param) {
 }
 
 async function searchForPage(param,page) {
-
+    contentGrid.innerHTML=loader;
 
     try {
         let response = await fetch (`https://api.themoviedb.org/3/search/movie?api_key=23ba16be4dc35356bedc2b9b63c19363&language=en-US&query=${param}&page=${page}&include_adult=false`)
@@ -784,7 +759,7 @@ function createFilteredDiv(obj) {
     let mainDiv=document.createElement("div");
     mainDiv.classList.add("filter-resulted");
     mainDiv.id=obj.id;
-    console.log(obj.id);
+    // console.log(obj.id);
 
     let poster = document.createElement("img");
     poster.src = "https://image.tmdb.org/t/p/w500" + obj.poster_path;
@@ -857,3 +832,29 @@ async function getGenresList(){
     filters.appendChild(createFilterBtn());
 }
 
+
+
+
+// swipe arrows 
+
+function createArrows () {
+    let mainDiv=document.createElement("div")
+    mainDiv.classList.add("arrows-div")
+
+    let left = document.createElement("p");
+    left.textContent="<<"
+    mainDiv.appendChild(left)
+
+
+    let swipe = document.createElement("p");
+    swipe.textContent="Swipe"
+    mainDiv.appendChild(swipe)
+
+
+    let right = document.createElement("p");
+    right.textContent=">>"
+    mainDiv.appendChild(right)
+
+
+    return mainDiv
+}
